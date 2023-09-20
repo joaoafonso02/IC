@@ -18,7 +18,7 @@ int main(int argc, char *argv[]) {
 	if(sndFile.error()) {
 		cerr << "Error: invalid input file\n";
 		return 1;
-    }
+  }
 
 	if((sndFile.format() & SF_FORMAT_TYPEMASK) != SF_FORMAT_WAV) {
 		cerr << "Error: file is not in WAV format\n";
@@ -41,10 +41,11 @@ int main(int argc, char *argv[]) {
 	WAVHist hist { sndFile };
 	while((nFrames = sndFile.readf(samples.data(), FRAMES_BUFFER_SIZE))) {
 		samples.resize(nFrames * sndFile.channels());
-		hist.update(samples);
+		hist.update2(samples);
 	}
 
-	hist.dump(channel);
+	// hist.dump(channel);
+	hist.dumpAll();
 	return 0;
 }
 
