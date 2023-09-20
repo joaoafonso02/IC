@@ -6,12 +6,14 @@
 #include <map>
 #include <sndfile.hh>
 #include <fstream>
+#include <math.h>
 
 class WAVHist {
 private:
 	std::vector<std::map<short, size_t>> counts;
 	std::map<short, size_t> midChannelCounts;
   std::map<short, size_t> sideChannelCounts;
+	std::map<short, size_t> compactChannelCounts;
 
 public:
   WAVHist(const SndfileHandle& sfh) {
@@ -42,9 +44,17 @@ public:
 			channel.close();
 		}
 
+		// write COMPACT channel
+		std::ofstream compact;
+		compact.open("compact.txt");
+		for(auto [value, counter] : compactChannelCounts) {
+			compact << pow(value, 2) << "\t" << counter << "\n"; 
+		}
+		compact.close();
+
 		// write MID channel
 		std::ofstream mid;
-		mid.open("min.txt");
+		mid.open("mid.txt");
 		for(auto [value, counter] : midChannelCounts) {
 			mid << value << "\t" << counter << "\n"; 
 		}
@@ -63,6 +73,7 @@ public:
 		size_t n = 0;
 		for(size_t i=0; i<samples.size(); i++) {
 			counts[i%2][samples[i]]++; 
+			compactChannelCounts[(int) log2(abs(samples[i]))]++;
 			
 			if(counts.size() == 2 && i%2==0) {
 				midChannelCounts[(samples[i] + samples[i+1]) / 2]++;
