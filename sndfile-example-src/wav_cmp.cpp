@@ -5,7 +5,7 @@
 int main(int argc, char *argv[]) {
 
     if (argc != 3) {
-        std::cerr << "Usage: " << argv[0] << " <original wav> <modified wav>\n";
+        std::cerr << "Usage: " << argv[0] << " <file 1> <file 2>\n";
 		return 1;
     }
 
@@ -14,13 +14,13 @@ int main(int argc, char *argv[]) {
     SndfileHandle originalFile { argv[1] };
     SndfileHandle modifiedFile { argv[2] };
 
-    if (originalFile.format() & SF_FORMAT_TYPEMASK != SF_FORMAT_WAV) {
-        std::cert << "Error: file1 not in WAV format\n"
+    if ( (originalFile.format() & SF_FORMAT_TYPEMASK) != SF_FORMAT_WAV) {
+        std::cerr << "Error: file1 not in WAV format\n";
         return 1;
     }
 
-    if (modifiedFile.format() & SF_FORMAT_TYPEMASK != SF_FORMAT_WAV) {
-        std::cert << "Error: file2 not in WAV format\n"
+    if ( (modifiedFile.format() & SF_FORMAT_TYPEMASK) != SF_FORMAT_WAV) {
+        std::cerr << "Error: file2 not in WAV format\n";
         return 1;
     }
 
