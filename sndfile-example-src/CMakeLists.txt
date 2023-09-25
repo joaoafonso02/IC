@@ -8,6 +8,19 @@ SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -std=c++17")
 SET (CMAKE_CXX_FLAGS_RELEASE "-O3")
 SET (CMAKE_CXX_FLAGS_DEBUG "-g3 -fsanitize=address")
 
+if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin") 
+    find_package(PkgConfig QUIET)
+    if(PKG_CONFIG_FOUND)
+        pkg_check_modules(LIBSNDFILE_PKGCONF sndfile)
+        pkg_check_modules(FFTW3_PKGCONF fftw3)
+    endif(PKG_CONFIG_FOUND)
+
+    include_directories(${LIBSNDFILE_PKGCONF_INCLUDE_DIRS})
+    link_directories(${LIBSNDFILE_PKGCONF_LIBRARY_DIRS})
+    include_directories(${FFTW3_PKGCONF_INCLUDE_DIRS})
+    link_directories(${FFTW3_PKGCONF_LIBRARY_DIRS})
+endif()
+
 SET (BASE_DIR ${CMAKE_SOURCE_DIR} )
 SET (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BASE_DIR}/../sndfile-example-bin)
 
@@ -25,3 +38,6 @@ target_link_libraries (wav_cmp sndfile)
 
 add_executable (wav_quant wav_quant.cpp)
 target_link_libraries (wav_quant sndfile)
+
+add_executable (wav_effects wav_effects.cpp)
+target_link_libraries (wav_effects sndfile)
