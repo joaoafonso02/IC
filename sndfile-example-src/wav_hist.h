@@ -48,7 +48,7 @@ public:
 		std::ofstream compact;
 		compact.open("compact.txt");
 		for(auto [value, counter] : compactChannelCounts) {
-			compact << pow(value, 2) << "\t" << counter << "\n"; 
+			compact << pow(2, value) << "\t" << counter << "\n"; 
 		}
 		compact.close();
 
