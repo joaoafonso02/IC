@@ -4,12 +4,13 @@
 class BitStream {
 private:
   std::ifstream is;
+  std::ofstream os;
   std::streambuf* filebuf;
   long fileSize;
 public:
   // Constructor
   BitStream(std::string fileName) {
-    is.open(fileName, std::ios::in | std::ios::binary);
+    is.open(fileName, std::ios::in | std::ios::out | std::ios::binary);
     filebuf = is.rdbuf();
 
     // get file size
@@ -29,7 +30,7 @@ public:
     is.seekg(offset, is.beg);
 
     // read bytes
-    unsigned int byteCount = n/8 + (n%8!=0);
+    unsigned int byteCount = n/8 + (n%8!=0); 
     char* bits = (char*) malloc(byteCount);
     filebuf->sgetn(bits, byteCount);
 
@@ -41,6 +42,23 @@ public:
 
     return bits;
   }
+
+
+  char* writeBits(const char* data, unsigned int n, unsigned int offset) {
+    if (n > 64) throw std::invalid_argument("[BitStream->writeBits] n must be less than 64");
+    if (offset + n > fileSize * 8) throw std::invalid_argument("[BitStream->writeBits] offset greater than file, this file max size is " + std::to_string(fileSize));
+    if (offset % 8 != 0) throw std::invalid_argument("[BitStream->writeBits] offset not divisible by 8 not implemented");
+
+    os.seekp(offset / 8, os.beg);
+
+    // write bits
+    unsigned int byteCount = n / 8 + (n % 8 != 0);
+    os.write(data, byteCount);
+
+    return (char*) data;
+
+  }
+
 
   long getFileSize() { return fileSize; }
 
