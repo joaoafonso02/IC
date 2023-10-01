@@ -28,7 +28,7 @@ int main(int argc, char *argv[]) {
   while( (nFrames = inwav.readf(samples.data(), 65536)) ) {
     std::cout << "Bah";
     for(size_t i = 0; i<nFrames * inwav.channels(); i++) {
-      samples[i] = samples[i] & (0xFF00) ;
+      samples[i] = samples[i] & (0xF000) ;
     }
     outwav.writef(samples.data(), nFrames);
   }
