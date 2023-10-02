@@ -3,22 +3,36 @@
 
 class BitStream {
 private:
-  std::ifstream is;
-  std::ofstream os;
+  std::fstream fs;
   std::streambuf* filebuf;
   long fileSize;
 public:
   // Constructor
   BitStream(std::string fileName) {
-    is.open(fileName, std::ios::in | std::ios::out | std::ios::binary);
-    filebuf = is.rdbuf();
+    fs.open(fileName, std::ios::in | std::ios::out | std::ios::binary);
+    filebuf = fs.rdbuf();
 
     // get file size
-    is.seekg(0, is.end);
-    fileSize = is.tellg();
+    fs.seekg(0, fs.end);
+    fileSize = fs.tellg();
     printf("FILE SIZE %ld\n", fileSize);
-    is.seekg(is.beg);
+    fs.seekg(fs.beg);
   }
+  // BitStream(std::string fileName) {
+  //   os.open(fileName, std::ios::out | std::ios::binary);
+
+  //   if (!os) {
+  //       std::cerr << "Failed to open the file '" << fileName << "' for output" << std::endl;
+  //       throw std::runtime_error("Failed to open the file for output");
+  //   }
+
+  //   // Initialize the filebuf
+  //   filebuf = os.rdbuf();
+
+  //   // Reset fileSize to 0 since you are writing to a new file
+  //   fileSize = 0;
+  // }
+
 
   char* readBits(unsigned int n, unsigned int offset) {
     if( n>64 ) throw std::invalid_argument("[BitStream->readBits] n must be less than 64");
@@ -27,7 +41,7 @@ public:
 
     // TODO: currently only accepts offset that are divisible by 8, to change that the read needs to start in the middle of a byte
 
-    is.seekg(offset, is.beg);
+    fs.seekg(offset / 8, fs.beg);
 
     // read bytes
     unsigned int byteCount = n/8 + (n%8!=0); 
@@ -43,20 +57,16 @@ public:
     return bits;
   }
 
+  void writeBits(const char* data, unsigned int n, unsigned int offset) {
+    fs.seekp(offset / 8, fs.beg); // Move the output stream to the correct byte position
 
-  char* writeBits(const char* data, unsigned int n, unsigned int offset) {
-    if (n > 64) throw std::invalid_argument("[BitStream->writeBits] n must be less than 64");
-    if (offset + n > fileSize * 8) throw std::invalid_argument("[BitStream->writeBits] offset greater than file, this file max size is " + std::to_string(fileSize));
-    if (offset % 8 != 0) throw std::invalid_argument("[BitStream->writeBits] offset not divisible by 8 not implemented");
+    // Write bits
+    unsigned int byteCount = n / 8 + (n % 8 != 0); // Calculate the number of bytes to write
+    filebuf->sputn(data, byteCount);
+     // Write the data to the file
 
-    os.seekp(offset / 8, os.beg);
-
-    // write bits
-    unsigned int byteCount = n / 8 + (n % 8 != 0);
-    os.write(data, byteCount);
-
-    return (char*) data;
-
+    // Flush the stream to ensure data is written immediately
+    fs.flush();
   }
 
 
@@ -64,6 +74,6 @@ public:
 
   // Deconstructor
   ~BitStream() {
-    is.close();
+    fs.close();
   }
 };
