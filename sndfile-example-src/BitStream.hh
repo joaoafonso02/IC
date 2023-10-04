@@ -43,7 +43,7 @@ public:
   }
 
   void writeBits(unsigned char* data, unsigned int n, unsigned int offset) {
-    for(int i=0; i<n; i++) {
+    for(unsigned int i=0; i<n; i++) {
       bool bit = (data[i/8] >> (7-i%8)) & 0x01;
       printf("%b [%d, %d]: %d\n", data[i/8], i/8, i%8, bit);
       writeBit(bit);
@@ -51,8 +51,33 @@ public:
     writeBitFlush();
   }
 
+  // Read functions
+  bool readBit() {
+    if (bufferpos == 0) {
+      buffer = filebuf->sbumpc();
+      bufferpos = 8;
+    }
+    bool bit = (buffer >> (bufferpos - 1)) & 0x01;
+    bufferpos -= 1;
+    putchar(bit + '0');
+    return bit;
+}
+
+  unsigned char readBits(unsigned int n) {
+    unsigned char result = 0;
+    for (unsigned int i = 0; i < n; i++) {
+      bool bit = readBit();
+      result = (result << 1) | (bit ? 0x01 : 0x00);
+      
+    }
+    return result;
+  }
+ 
   // Deconstructor
   ~BitStream() {
     fs.close();
   }
 };
+
+
+ 
