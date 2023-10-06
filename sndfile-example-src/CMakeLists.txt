@@ -43,3 +43,7 @@ add_executable (wav_effects wav_effects.cpp)
 target_link_libraries (wav_effects sndfile)
 
 add_executable(test_BitStream test_BitStream.cpp)
+
+add_executable (encoder encoder.cpp)
+
+add_executable (decoder decoder.cpp)

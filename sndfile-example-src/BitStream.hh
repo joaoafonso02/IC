@@ -3,7 +3,6 @@
 
 class BitStream {
 private:
-  std::fstream fs;
   std::streambuf* filebuf;
 
   unsigned char buffer;
@@ -11,6 +10,7 @@ private:
 
 public:
   enum Flag {w, r};
+  std::fstream fs;
 
   // Constructor
   BitStream(std::string fileName, Flag flag) {
