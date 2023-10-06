@@ -12,7 +12,7 @@ class WAVHist {
 private:
 	std::vector<std::map<short, size_t>> counts;
 	std::map<short, size_t> midChannelCounts;
-  std::map<short, size_t> sideChannelCounts;
+  	std::map<short, size_t> sideChannelCounts;
 	std::map<short, size_t> compactChannelCounts;
 
 public:
