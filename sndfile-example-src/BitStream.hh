@@ -59,18 +59,24 @@ public:
     }
     bool bit = (buffer >> (bufferpos - 1)) & 0x01;
     bufferpos -= 1;
-    putchar(bit + '0');
+    // putchar(bit + '0');
     return bit;
 }
 
-  unsigned char readBits(unsigned int n) {
+  unsigned char readBits(unsigned char* buffer, unsigned int n) {
+    unsigned int size = n/8 + (n%8!=0);
     unsigned char result = 0;
-    for (unsigned int i = 0; i < n; i++) {
+    unsigned int i;
+    for (i = 0; i < n; i++) {
       bool bit = readBit();
       result = (result << 1) | (bit ? 0x01 : 0x00);
-      
+      if( i%8 == 7 ) {
+       buffer[i/8] = result;
+       result = 0;
+      }
     }
-    return result;
+    buffer[i/8] = result << (8-n%8);
+    return size;
   }
  
   // Deconstructor

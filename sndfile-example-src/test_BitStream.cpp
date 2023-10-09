@@ -9,7 +9,7 @@ int main(int argc, char **argv) {
   }
 
   std::string fileName = argv[1], mode = argv[2];
-  unsigned int bitCount = 11;
+  unsigned int bitCount = 64;
 
   BitStream::Flag flag;
   
@@ -24,8 +24,12 @@ int main(int argc, char **argv) {
     BitStream file(fileName, flag);
     // read bits
     std::cout << "Read Bits: ";
-    file.readBits(bitCount);
+    unsigned char* outBuffer = (unsigned char*) malloc(bitCount/8 + (bitCount%8!=0));
+    int outBufferSize = file.readBits(outBuffer, bitCount);
 
+    for(int i=0; i<outBufferSize; i++) {
+      printf(" %02x", outBuffer[i]);
+    }
     std::cout << std::endl;
   } else {
     std::cerr << "Invalid mode. Use 'w' for write or 'r' for read." << std::endl;
