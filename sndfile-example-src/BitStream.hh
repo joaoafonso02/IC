@@ -22,13 +22,26 @@ public:
     bufferpos = 0;
   }
 
+  void writeString1(std::string text) {
+    unsigned char charArr[text.length() + 1];
+    for (size_t i = 0; i < text.length(); ++i) {
+      charArr[i] = text[i];
+    }
+    std::cout << charArr << std::endl;
+    writeBits(charArr, (sizeof(charArr)-1)*8 , 0);
+  }
+
+  void writeString2(std::string text) {
+    fs << text;
+  }
+  
   void writeBit(bool bit) {
     unsigned char cbit = (unsigned char) bit;
     cbit <<= 7-bufferpos;
     buffer |= cbit;
     bufferpos += 1;
 
-    printf("buffer: %x\n", buffer);
+    //printf("buffer: %x\n", buffer);
     if(bufferpos==8) {
       filebuf->sputc(buffer);
       buffer = 0;
@@ -45,7 +58,7 @@ public:
   void writeBits(unsigned char* data, unsigned int n, unsigned int offset) {
     for(unsigned int i=0; i<n; i++) {
       bool bit = (data[i/8] >> (7-i%8)) & 0x01;
-      printf("%b [%d, %d]: %d\n", data[i/8], i/8, i%8, bit);
+      //printf("%b [%d, %d]: %d\n", data[i/8], i/8, i%8, bit);
       writeBit(bit);
     }
     writeBitFlush();
