@@ -28,7 +28,7 @@ public:
     buffer |= cbit;
     bufferpos += 1;
 
-    printf("buffer: %x\n", buffer);
+    // printf("buffer: %x\n", buffer);
     if(bufferpos==8) {
       filebuf->sputc(buffer);
       buffer = 0;
@@ -43,12 +43,13 @@ public:
   }
 
   void writeBits(unsigned char* data, unsigned int n, unsigned int offset) {
-    for(unsigned int i=0; i<n; i++) {
+    unsigned int i;
+    for(i=0; i<n; i++) {
       bool bit = (data[i/8] >> (7-i%8)) & 0x01;
-      printf("%b [%d, %d]: %d\n", data[i/8], i/8, i%8, bit);
+      // printf("%b [%d, %d]: %d\n", data[i/8], i/8, i%8, bit);
       writeBit(bit);
     }
-    writeBitFlush();
+    if(i%8!=0) writeBitFlush();
   }
 
   // Read functions
@@ -59,7 +60,6 @@ public:
     }
     bool bit = (buffer >> (bufferpos - 1)) & 0x01;
     bufferpos -= 1;
-    // putchar(bit + '0');
     return bit;
 }
 
