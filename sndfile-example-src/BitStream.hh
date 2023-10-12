@@ -22,6 +22,19 @@ public:
     bufferpos = 0;
   }
 
+  void writeString1(std::string text) {
+    unsigned char charArr[text.length() + 1];
+    for (size_t i = 0; i < text.length(); ++i) {
+      charArr[i] = text[i];
+    }
+    std::cout << charArr << std::endl;
+    writeBits(charArr, (sizeof(charArr)-1)*8 , 0);
+  }
+
+  void writeString2(std::string text) {
+    fs << text;
+  }
+  
   void writeBit(bool bit) {
     unsigned char cbit = (unsigned char) bit;
     cbit <<= 7-bufferpos;
@@ -29,6 +42,7 @@ public:
     bufferpos += 1;
 
     // printf("buffer: %x\n", buffer);
+    //printf("buffer: %x\n", buffer);
     if(bufferpos==8) {
       filebuf->sputc(buffer);
       buffer = 0;
