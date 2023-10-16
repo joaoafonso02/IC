@@ -47,3 +47,6 @@ add_executable(test_BitStream test_BitStream.cpp)
 add_executable (encoder encoder.cpp)
 
 add_executable (decoder decoder.cpp)
+
+add_executable (wav_dct2 wav_dct2.cpp)
+target_link_libraries (wav_dct2 sndfile fftw3)
