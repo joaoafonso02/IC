@@ -63,7 +63,6 @@ public:
       // printf("%b [%d, %d]: %d\n", data[i/8], i/8, i%8, bit);
       writeBit(bit);
     }
-    if(i%8!=0) writeBitFlush();
   }
 
   // Read functions
