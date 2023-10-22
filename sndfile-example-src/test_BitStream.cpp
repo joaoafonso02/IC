@@ -12,8 +12,7 @@ int main(int argc, char **argv) {
   std::string str= "string de teste 123123o+j.das+p+eW'É0+  ";
   unsigned char data[] = {0xA7, 0xC3};
 
-
-  unsigned int bitCount = str.length() * 8;
+  unsigned int bitCount = str.length() * 8 + 22; // +22 cause im writing 11 bits + string + 11 bits
 
   BitStream::Flag flag;
   
@@ -22,24 +21,26 @@ int main(int argc, char **argv) {
     BitStream file(fileName, flag);
 
     file.writeBits(data, 11, 0);
-    file.writeString2(str);
+    file.writeString1(str);
     file.writeBits(data, 11, 0);
     file.writeBitFlush();
 
   } else if (mode == "r") {
     flag = BitStream::r;
     BitStream file(fileName, flag);
-    // read bits
-    std::cout << "Read Bits: \n";
-    unsigned char* outBuffer = (unsigned char*) malloc(bitCount/8 + (bitCount%8!=0));
-    int outBufferSize = file.readBits(outBuffer, bitCount+11);
+    std::cout << "Read Bits: ";
 
-    std::cout << "String: " << outBuffer << std::endl;
+    unsigned char outBuffer[100]; 
+    int outBufferSize = bitCount / 8 + (bitCount % 8 != 0);
 
-    for(int i=outBufferSize-2; i<outBufferSize; i++) {
-      printf(" %02x", outBuffer[i]);
+    // Read bits
+    file.readBits(outBuffer, bitCount);
+
+    // print as hexadecimal
+    for (int i = 0; i < outBufferSize; i++) {
+      std::cout << std::hex << std::setw(2) << std::setfill('0') << (int) outBuffer[i] << " ";
     }
-    std::cout << std::endl;
+    std::cout << std::dec << std::endl;
   } else {
     std::cerr << "Invalid mode. Use 'w' for write or 'r' for read." << std::endl;
     return 1; // Return an error code
