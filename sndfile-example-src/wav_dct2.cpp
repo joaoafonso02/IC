@@ -3,7 +3,9 @@
 #include <sndfile.hh>
 #include <cmath>
 #include <fftw3.h>
+
 #include "BitStream.hh"
+#include "Wav_quant.hh"
 
 using namespace std;
 
