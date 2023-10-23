@@ -24,9 +24,6 @@ endif()
 SET (BASE_DIR ${CMAKE_SOURCE_DIR} )
 SET (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BASE_DIR}/../sndfile-example-bin)
 
-add_executable (wav_quant wav_quant.cpp)
-target_link_libraries (wav_quant sndfile wav_dct2)
-
 add_executable (wav_cp wav_cp.cpp)
 target_link_libraries (wav_cp sndfile)
 
@@ -39,6 +36,9 @@ target_link_libraries (wav_dct sndfile fftw3)
 add_executable (wav_cmp wav_cmp.cpp)
 target_link_libraries (wav_cmp sndfile)
 
+# add_executable (wav_quant wav_quant.cpp)
+# target_link_libraries (wav_quant sndfile)
+
 add_executable (wav_effects wav_effects.cpp)
 target_link_libraries (wav_effects sndfile)
 
@@ -48,5 +48,5 @@ add_executable (encoder encoder.cpp)
 
 add_executable (decoder decoder.cpp)
 
-add_executable (wav_dct2 wav_dct2.cpp)
+add_executable (wav_dct2 wav_dct2.cpp wav_quant.cpp)
 target_link_libraries (wav_dct2 sndfile fftw3)
