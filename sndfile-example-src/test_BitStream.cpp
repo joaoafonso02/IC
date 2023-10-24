@@ -38,7 +38,7 @@ int main(int argc, char **argv) {
 
     // print as hexadecimal
     for (int i = 0; i < outBufferSize; i++) {
-      std::cout << std::hex << std::setw(2) << std::setfill('0') << (int) outBuffer[i] << " ";
+      std::cout << std::hex << (int)outBuffer[i] << " ";
     }
     std::cout << std::dec << std::endl;
   } else {
