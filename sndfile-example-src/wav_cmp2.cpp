@@ -3,7 +3,6 @@
 #include <sndfile.hh>
 #include <cmath>
 #include <fstream>
-#include "gnuplot-iostream.h" // Include the Gnuplot C++ bindings
 
 #include "Wav_quant.hh"
 

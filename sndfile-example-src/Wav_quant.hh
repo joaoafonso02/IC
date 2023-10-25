@@ -34,7 +34,7 @@ public:
     size_t frames;
     while( (frames = infile.readf(samples, blocksize)) ) {
       Wav_quant::reduce_quantization(samples, blocksize * infile.channels(), newBits);
-      outfile.writef(samples, blocksize);
+      outfile.writef(samples, frames);
     }
   }
 };
