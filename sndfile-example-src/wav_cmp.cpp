@@ -32,10 +32,10 @@ int main(int argc, char *argv[]) {
     }
 
     // check if the files have the same number of frames
-    if (file1.frames() != file2.frames()) {
-        std::cerr << "Both files must have the same number of frames.\n";
-        return 1;
-    }
+    // if (file1.frames() != file2.frames()) {
+    //     std::cerr << "Both files must have the same number of frames.\n";
+    //     return 1;
+    // }
 
     size_t nFrames;
     std::vector<short> samples1(FRAMES_BUFFER_SIZE * file1.channels());
@@ -59,7 +59,10 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    mse /= (file1.frames() * file1.channels());
+    std::cout << file1.frames() << std::endl;
+    std::cout << file2.frames() << std::endl;
+
+    mse /= (file2.frames() * file2.channels());
     double snr = 10 * log10(signal/noise);
 
     std::cout << "Mean Squared Error (L2 norm): " << mse << std::endl;
