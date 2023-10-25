@@ -12,7 +12,8 @@ using namespace std;
 int main(int argc, char* argv[]) {
 
   size_t blockSize { 1024 }; 
-  double dctFrac { 0.125 };
+  double dctFrac { 1 };
+  int quantization { 16 };
 
   size_t i, j, k, c, err;
 
@@ -32,21 +33,35 @@ int main(int argc, char* argv[]) {
     BitStream outFile { argv[3], BitStream::w }; 
 
     vector<double> x(blockSize);
-    vector<float> xfile(blockSize * 2);
+    vector<double> xfile(blockSize * 2);
     vector<short> samples(blockSize * 2);
     fftw_plan plan_d = fftw_plan_r2r_1d(blockSize, x.data(), x.data(), FFTW_REDFT10, FFTW_ESTIMATE);
-	  fftw_plan plan_i = fftw_plan_r2r_1d(blockSize, x.data(), x.data(), FFTW_REDFT01, FFTW_ESTIMATE);
-    k = 0;
+	  // fftw_plan plan_i = fftw_plan_r2r_1d(blockSize, x.data(), x.data(), FFTW_REDFT01, FFTW_ESTIMATE);
     int readSamples;
     while( (readSamples = inFile.readf(samples.data(), blockSize))!=0) {
       for(c=0; c<2; c++) {
         for(j=0; j<readSamples; j++) x[j] = samples[j*2+c]; // cast of short to double
         fftw_execute(plan_d);
-        for(j=0; j<readSamples; j++) xfile[j*2+c] = x[j] / (blockSize << 1); // cast of short to double
+        for(j=0; j<readSamples; j++) xfile[j*2+c] = x[j] / (blockSize << 1); // cast double to short
+        
+        // for(j=0; j<readSamples; j++) xfile[j*2+c] = x[j] / (blockSize << 1); // cast of short to double
+        // for(j=0; j<readSamples; j++) xfile[j*2+c] = x[j] / (blockSize << 1); // cast of double to short
       }
       
       // write to file
-      outFile.writeBits((unsigned char*) xfile.data(), (int) readSamples*2*32*dctFrac, 0);  
+      for(j=0; j<readSamples; j++) samples[j] = xfile[j]; // cast of short to double
+      // Wav_quant::reduce_quantization(samples.data(), readSamples*2, quantization);
+      // printf("\n\n---------------------------------------------------------------------------\n");
+      for(j=0; j<readSamples*2 && j<readSamples*2*dctFrac; j++) {
+        // samples[j] = 0x1234;
+        // printf("%08x ", samples[j]);
+        samples[j] = (samples[j] & 0xFF00) >> 8 | (samples[j] & 0x00FF) << 8; 
+
+        outFile.writeBits((unsigned char*) &samples[j], quantization, 0);
+      }
+
+      
+      // outFile.writeBits((unsigned char*) samples.data(), (int) readSamples*2*32*dctFrac, 0);  
     }
 
   } else if( std::string(argv[1])=="decompress" ) {
@@ -55,16 +70,22 @@ int main(int argc, char* argv[]) {
     SndfileHandle outFile { argv[3], SFM_WRITE, 65538 , 2, 44100 };
 
     vector<short> samples(blockSize*2);
-    vector<float> xfile(blockSize*2);
+    vector<double> xfile(blockSize*2);
     vector<double> x(blockSize);
 	  fftw_plan plan_i = fftw_plan_r2r_1d(blockSize, x.data(), x.data(), FFTW_REDFT01, FFTW_ESTIMATE);
 
     for(i=0; i<1000; i++) {
-      inFile.readBits((unsigned char*) xfile.data(), (int) blockSize*2*32*dctFrac);
+      // inFile.readBits((unsigned char*) xfile.data(), (int) blockSize*2*quantization*dctFrac);
+      // printf("\n\n---------------------------------------------------------------------------\n");
+      for(j=0; j<blockSize*2*dctFrac; j++) {
+        inFile.readBits((unsigned char*) &samples[j], quantization);
+        samples[j] = (samples[j] & 0xFF00) >> 8 | (samples[j] & 0x00FF) << 8; 
+        samples[j] = (samples[j] & 0x00FF) << (16 - quantization)%8 | (samples[j]&0xFF00);
+        xfile[j] = samples[j];
+      }
 
       for(c=0; c<2; c++) {
-        for(j=0; j<blockSize*dctFrac; j++) x[j] = xfile[j*2+c]; // cast of short to double
-        for(j=blockSize*dctFrac; j<blockSize; j++) x[j] = 0;
+        for(j=0; j<blockSize; j++) x[j] = xfile[j*2+c];
         fftw_execute(plan_i);
         for(j=0; j<blockSize; j++) samples[j*2+c] = static_cast<short>(round(x[j])); // cast of short to double
       }

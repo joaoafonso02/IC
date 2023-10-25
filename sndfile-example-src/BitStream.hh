@@ -35,25 +35,21 @@ public:
     fs << text;
   }
   
+  void writeBitFlush() {
+    filebuf->sputc(buffer);
+    buffer = 0;
+    bufferpos = 0;
+  }
+
   void writeBit(bool bit) {
     unsigned char cbit = (unsigned char) bit;
     cbit <<= 7-bufferpos;
     buffer |= cbit;
     bufferpos += 1;
 
-    // printf("buffer: %x\n", buffer);
-    //printf("buffer: %x\n", buffer);
     if(bufferpos==8) {
-      filebuf->sputc(buffer);
-      buffer = 0;
-      bufferpos = 0;
+      writeBitFlush();
     }
-  }
-
-  void writeBitFlush() {
-    filebuf->sputc(buffer);
-    buffer = 0;
-    bufferpos = 0;
   }
 
   void writeBits(unsigned char* data, unsigned int n, unsigned int offset) {
@@ -76,7 +72,7 @@ public:
     return bit;
 }
 
-  unsigned char readBits(unsigned char* buffer, unsigned int n) {
+  unsigned char readBits(unsigned char* data, unsigned int n) {
     unsigned int size = n/8 + (n%8!=0);
     unsigned char result = 0;
     unsigned int i;
@@ -84,11 +80,11 @@ public:
       bool bit = readBit();
       result = (result << 1) | (bit ? 0x01 : 0x00);
       if( i%8 == 7 ) {
-       buffer[i/8] = result;
+       *(data+i/8) = result;
        result = 0;
       }
     }
-    buffer[i/8] = result << (8-n%8);
+    *(data+i/8) = result;
     return size;
   }
  

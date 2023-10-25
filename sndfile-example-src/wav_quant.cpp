@@ -4,7 +4,7 @@
 
 #include "Wav_quant.hh"
 
-static void reduce_quantization(short* samples, int nSamples, int newBits) {
+void Wav_quant::reduce_quantization(short* samples, int nSamples, int newBits) {
   short mask = 0xFFFF;
   mask <<= 16-newBits;
   for(int i=0; i<nSamples; i++) {
@@ -12,7 +12,7 @@ static void reduce_quantization(short* samples, int nSamples, int newBits) {
   }
 }
 
-static void reduce_quantization(std::string inFile, std::string outFile, int newBits) {
+void Wav_quant::reduce_quantization(std::string inFile, std::string outFile, int newBits) {
   SndfileHandle infile { inFile };
   if( (infile.format() & SF_FORMAT_TYPEMASK) != SF_FORMAT_WAV ) {
     std::cerr << "Error: infile not in WAV format\n";
@@ -34,16 +34,16 @@ static void reduce_quantization(std::string inFile, std::string outFile, int new
   }
 }
 
-int main(int argc, char *argv[]) {
-  if (argc != 4) {
-    std::cerr << "Usage: " << argv[0] << "<infile.wav> <outfile.wav> <new bite sample size>\n";
-    return 1;
-  }
-  int newBits = std::stoi(argv[3]);
-  if( newBits<=0 || newBits>16 ) throw std::invalid_argument("newBits must be between [1,16]");
-
-  Wav_quant::reduce_quantization(argv[1], argv[2], newBits);
-
-  return 0;
-
-}
+// int main(int argc, char *argv[]) {
+//   if (argc != 4) {
+//     std::cerr << "Usage: " << argv[0] << "<infile.wav> <outfile.wav> <new bite sample size>\n";
+//     return 1;
+//   }
+//   int newBits = std::stoi(argv[3]);
+//   if( newBits<=0 || newBits>16 ) throw std::invalid_argument("newBits must be between [1,16]");
+//
+//   Wav_quant::reduce_quantization(argv[1], argv[2], newBits);
+//
+//   return 0;
+//
+// }
