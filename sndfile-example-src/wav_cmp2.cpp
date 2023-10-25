@@ -2,6 +2,8 @@
 #include <vector>
 #include <sndfile.hh>
 #include <cmath>
+#include <fstream>
+#include "gnuplot-iostream.h" // Include the Gnuplot C++ bindings
 
 #include "Wav_quant.hh"
 
@@ -51,6 +53,11 @@ int main(int argc, char *argv[]) {
         }
     }
 
+    std::ofstream mseFile("ex2/mse.txt");  // Open file for MSE data
+    std::ofstream maeFile("ex2/max_absolute_error.txt");  // Open file for Max Absolute Error data
+    std::ofstream snrFile("ex2/snr.txt");  // Open file for SNR data
+
+
     for (size_t i = 0; i < 16; i++) {
         mse[i] /= (file1.frames()*file1.channels());
         snr[i] = 10*log10(signal[i]/noise[i]);
@@ -59,9 +66,17 @@ int main(int argc, char *argv[]) {
         std::cout << "MAE " << 16-i << ": " << maxAbsoluteError[i] << std::endl;
         std::cout << "SNR " << 16-i << ": " << snr[i] << std::endl;
 
+        mseFile << mse[i] << "\n";  // Write MSE data to file
+        maeFile << maxAbsoluteError[i] << "\n";  // Write Max Absolute Error data to file
+        snrFile << snr[i] << "\n";  // Write SNR data to file
+
         printf("\n");
     }
 
+    mseFile.close();  // Close the MSE file
+    maeFile.close();  // Close the Max Absolute Error file
+    snrFile.close();  // Close the SNR file
 
     return 0;
 }
+

@@ -11,7 +11,7 @@ public:
   static void reduce_quantization(short* samples, int nSamples, int newBits) {
     short mask = 0xFFFF;
     mask <<= 16-newBits;
-    for(int i=0; i<=nSamples; i++) {
+    for(int i=0; i<nSamples; i++) {
       samples[i] = samples[i] & mask;
     }
   }
