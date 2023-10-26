@@ -3,7 +3,6 @@
 #include <sndfile.hh>
 #include <cmath>
 #include <fstream>
-#include "gnuplot-iostream.h" // Include the Gnuplot C++ bindings
 
 #include "Wav_quant.hh"
 
@@ -41,7 +40,7 @@ int main(int argc, char *argv[]) {
             for (size_t j = 0; j < samples1.size(); j++) 
                 samples2[j] = samples1[j];
             
-            Wav_quant::reduce_quantization( (short*)(samples2.data()), FRAMES_BUFFER_SIZE * file1.channels(), 16-i);
+            Wav_quant::reduce_quantization( samples2.data(), FRAMES_BUFFER_SIZE * file1.channels(), 16-i);
             
             for (size_t j = 0; j < samples1.size(); j++) {
                 double diff = samples1[j] - samples2[j];

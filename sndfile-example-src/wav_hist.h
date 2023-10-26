@@ -7,81 +7,82 @@
 #include <sndfile.hh>
 #include <fstream>
 #include <math.h>
+#include <stdio.h>
 
 class WAVHist {
 private:
 	std::vector<std::map<short, size_t>> counts;
-	std::map<short, size_t> midChannelCounts;
-  std::map<short, size_t> sideChannelCounts;
-	std::map<short, size_t> compactChannelCounts;
+	std::map<short, size_t> mono;
+	std::map<short, size_t> diff;
 
 public:
-  WAVHist(const SndfileHandle& sfh) {
+	WAVHist(const SndfileHandle& sfh) {
 		counts.resize(sfh.channels());
 	}
 
 	void update(const std::vector<short>& samples) {
 		size_t n { };
-		for(auto s : samples)
-			counts[n++ % counts.size()][s]++;
-	}
-
-	void dump(const size_t channel) const {
-		for(auto [value, counter] : counts[channel]) {
-			std::cout << value << '\t' << counter;
-		}
-	}
-
-	void dumpAll() {
-		std::cout << "DUMPALL" << "\n"; 
-		// write all channels to files
-		for(size_t i=0; i<counts.size(); i++) {
-			std::ofstream channel;
-			channel.open("channel"+std::to_string(i)+".txt");
-			for(auto [value, counter] : counts[i]) {
-				channel << counter << "\t" << value << "\n"; 
+		if( counts.size()==1 ) {
+			for(auto s : samples) {
+				counts[n++ % counts.size()][s]++;
 			}
-			channel.close();
-		}
-
-		// write COMPACT channel
-		std::ofstream compact;
-		compact.open("compact.txt");
-		for(auto [value, counter] : compactChannelCounts) {
-			compact << value*(32768*2/32) << "\t" << counter << "\n"; 
-		}
-		compact.close();
-
-		// write MID channel
-		std::ofstream mid;
-		mid.open("mid.txt");
-		for(auto [value, counter] : midChannelCounts) {
-			mid << counter << "\t" << value << "\n"; 
-		}
-		mid.close();
-
-		// write SIDE channel
-		std::ofstream side;
-		side.open("side.txt");
-		for(auto [value, counter] : sideChannelCounts) {
-			side << counter << "\t" << value << "\n"; 
-		}
-		side.close();
-	}
-
-	void update2(const std::vector<short>& samples) {
-		size_t n = 0;
-		for(size_t i=0; i<samples.size(); i++) {
-			counts[i%2][samples[i]]++; 
-			compactChannelCounts[(int) (samples[i]/(65536/32))]++;
-			
-			if(counts.size() == 2 && i%2==0) {
-				midChannelCounts[(samples[i] + samples[i+1]) / 2]++;
-				sideChannelCounts[(samples[i] - samples[i+1]) / 2]++;
+		} else if( counts.size()==2 ) {
+			for(int i=0; i<samples.size(); i+=2) {
+				short s1 = samples[i];
+				short s2 = samples[i+1];
+				counts[0][s1]++;
+				counts[1][s2]++;
+				mono[(s1+s2)/2]++;
+				diff[(s1-s2)/2]++;
 			}
 		}
 	}
 
+	void dump(const size_t channel) {
+		for(auto [value, counter] : counts[channel])
+			std::cout << value << '\t' << counter << '\n';
+	}
+
+	void filedump(const std::string outfilename) {
+		if( counts.size()==1 ) {
+			char outname[80];
+			sprintf(outname, "%sch%d.data", outfilename.c_str(), 0);
+			std::ofstream outfile { outname };
+			for(auto [value, counter] : counts[0]) {
+				outfile << value << '\t' << counter << '\n';
+			}
+			outfile.close();
+		} else if( counts.size()==2 ) {
+			char outname[80];
+			sprintf(outname, "%sch%d.data", outfilename.c_str(), 0);
+			std::ofstream outfilech1 { outname };
+			for(auto [value, counter] : counts[0]) {
+				outfilech1 << value << '\t' << counter << '\n';
+			}
+			outfilech1.close();
+
+			sprintf(outname, "%sch%d.data", outfilename.c_str(), 1);
+			std::ofstream outfilech2 { outname };
+			for(auto [value, counter] : counts[1]) {
+				outfilech2 << value << '\t' << counter << '\n';
+			}
+			outfilech2.close();
+
+			sprintf(outname, "%smono.data", outfilename.c_str());
+			std::ofstream outfilemono { outname };
+			for(auto [value, counter] : mono) {
+				outfilemono << value << '\t' << counter << '\n';
+			}
+			outfilemono.close();
+
+			sprintf(outname, "%sdiff.data", outfilename.c_str());
+			std::ofstream outfilediff { outname };
+			for(auto [value, counter] : diff) {
+				outfilediff << value << '\t' << counter << '\n';
+			}
+			outfilediff.close();
+		}
+	}
 };
 
 #endif

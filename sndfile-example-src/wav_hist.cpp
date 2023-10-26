@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <sndfile.hh>
+#include "Wav_quant.hh"
 #include "wav_hist.h"
 
 using namespace std;
@@ -9,12 +10,12 @@ constexpr size_t FRAMES_BUFFER_SIZE = 65536; // Buffer for reading frames
 
 int main(int argc, char *argv[]) {
 
-	if(argc < 3) {
-		cerr << "Usage: " << argv[0] << " <input file> <channel>\n";
+	if(argc < 2) {
+		cerr << "Usage: " << argv[0] << " <input file>\n";
 		return 1;
 	}
 
-	SndfileHandle sndFile { argv[argc-2] };
+	SndfileHandle sndFile { argv[1] };
 	if(sndFile.error()) {
 		cerr << "Error: invalid input file\n";
 		return 1;
@@ -30,22 +31,23 @@ int main(int argc, char *argv[]) {
 		return 1;
 	}
 
-	int channel { stoi(argv[argc-1]) };
-	if(channel >= sndFile.channels()) {
-		cerr << "Error: invalid channel requested\n";
-		return 1;
-	}
+	// int channel { stoi(argv[argc-1]) };
+	// if(channel >= sndFile.channels()) {
+	// 	cerr << "Error: invalid channel requested\n";
+	// 	return 1;
+	// }
 
 	size_t nFrames;
 	vector<short> samples(FRAMES_BUFFER_SIZE * sndFile.channels());
 	WAVHist hist { sndFile };
 	while((nFrames = sndFile.readf(samples.data(), FRAMES_BUFFER_SIZE))) {
 		samples.resize(nFrames * sndFile.channels());
-		hist.update2(samples);
+		Wav_quant::reduce_quantization(samples.data(), samples.size(), 6);
+		hist.update(samples);
 	}
 
 	// hist.dump(channel);
-	hist.dumpAll();
+	hist.filedump("out");
 	return 0;
 }
 
