@@ -42,7 +42,7 @@ int main(int argc, char *argv[]) {
 	WAVHist hist { sndFile };
 	while((nFrames = sndFile.readf(samples.data(), FRAMES_BUFFER_SIZE))) {
 		samples.resize(nFrames * sndFile.channels());
-		Wav_quant::reduce_quantization(samples.data(), samples.size(), 6);
+		Wav_quant::reduce_quantization(samples.data(), samples.size(), 3);
 		hist.update(samples);
 	}
 
