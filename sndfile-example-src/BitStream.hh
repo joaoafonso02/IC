@@ -61,6 +61,13 @@ public:
     }
   }
 
+  void writeBits64(uint64_t data, unsigned int n) {
+    for(uint64_t i=1; i<=n; i++) {
+      bool bit = (data >> (64 - i)) & 0x01;
+      writeBit(bit);
+    }
+  }
+
   // Read functions
   bool readBit() {
     if (bufferpos == 0) {
@@ -86,6 +93,15 @@ public:
     }
     *(data+i/8) = result;
     return size;
+  }
+
+  void readBits64(uint64_t* data, unsigned int n) {
+    *data = 0;
+    for(uint64_t i=0; i<n; i++) {
+      bool bit = readBit(); 
+      *data = (*data<<1) | (bit ? 0x1 : 0x0);
+    }
+    *data <<= 64-n;
   }
  
   // Deconstructor

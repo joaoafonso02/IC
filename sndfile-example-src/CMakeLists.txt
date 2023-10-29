@@ -48,8 +48,8 @@ add_executable (encoder encoder.cpp)
 
 add_executable (decoder decoder.cpp)
 
-# add_executable (wav_dct2 wav_dct2.cpp wav_quant.cpp)
-# target_link_libraries (wav_dct2 sndfile fftw3)
+add_executable (wav_dct2 wav_dct2.cpp)
+target_link_libraries (wav_dct2 sndfile fftw3)
 
 add_executable (wav_cmp2 wav_cmp2.cpp)
 target_link_libraries (wav_cmp2 sndfile)
