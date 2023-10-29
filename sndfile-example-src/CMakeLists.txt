@@ -30,8 +30,8 @@ target_link_libraries (wav_cp sndfile)
 add_executable (wav_hist wav_hist.cpp)
 target_link_libraries (wav_hist sndfile)
 
-add_executable (wav_dct wav_dct.cpp)
-target_link_libraries (wav_dct sndfile fftw3)
+add_executable (wav_dct_original wav_dct_original.cpp)
+target_link_libraries (wav_dct_original sndfile fftw3)
 
 add_executable (wav_cmp wav_cmp.cpp)
 target_link_libraries (wav_cmp sndfile)
@@ -48,8 +48,8 @@ add_executable (encoder encoder.cpp)
 
 add_executable (decoder decoder.cpp)
 
-add_executable (wav_dct2 wav_dct2.cpp)
-target_link_libraries (wav_dct2 sndfile fftw3)
+add_executable (wav_dct wav_dct.cpp)
+target_link_libraries (wav_dct sndfile fftw3)
 
 add_executable (wav_cmp_extra wav_cmp_extra.cpp)
 target_link_libraries (wav_cmp_extra sndfile)
