@@ -51,6 +51,6 @@ add_executable (decoder decoder.cpp)
 # add_executable (wav_dct2 wav_dct2.cpp wav_quant.cpp)
 # target_link_libraries (wav_dct2 sndfile fftw3)
 
-add_executable (wav_cmp2 wav_cmp2.cpp)
-target_link_libraries (wav_cmp2 sndfile)
+add_executable (wav_cmp_extra wav_cmp_extra.cpp)
+target_link_libraries (wav_cmp_extra sndfile)
     
