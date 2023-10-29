@@ -69,22 +69,25 @@ public:
   }
 
   // Read functions
-  bool readBit() {
+  char readBit() {
     if (bufferpos == 0) {
-      buffer = filebuf->sbumpc();
+      int read = filebuf->sbumpc();
+      if( read==EOF ) return EOF;
+      buffer = read;
       bufferpos = 8;
     }
     bool bit = (buffer >> (bufferpos - 1)) & 0x01;
     bufferpos -= 1;
     return bit;
-}
+  }
 
-  unsigned char readBits(unsigned char* data, unsigned int n) {
+  char readBits(unsigned char* data, unsigned int n) {
     unsigned int size = n/8 + (n%8!=0);
     unsigned char result = 0;
     unsigned int i;
     for (i = 0; i < n; i++) {
-      bool bit = readBit();
+      char bit = readBit();
+      if( bit==EOF ) break;
       result = (result << 1) | (bit ? 0x01 : 0x00);
       if( i%8 == 7 ) {
        *(data+i/8) = result;
@@ -92,16 +95,18 @@ public:
       }
     }
     *(data+i/8) = result;
-    return size;
+    return size - i/8;
   }
 
-  void readBits64(uint64_t* data, unsigned int n) {
+  char readBits64(uint64_t* data, unsigned int n) {
     *data = 0;
     for(uint64_t i=0; i<n; i++) {
-      bool bit = readBit(); 
+      char bit = readBit(); 
+      if( bit==EOF ) return 1;
       *data = (*data<<1) | (bit ? 0x1 : 0x0);
     }
     *data <<= 64-n;
+    return 0;
   }
  
   // Deconstructor

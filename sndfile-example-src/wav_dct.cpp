@@ -22,6 +22,8 @@ void showhelp() {
     std::cerr << "               [ -d file to decompress ]\n";
     std::cerr << "               [ -bs blockSize (def 1024) ]\n";
     std::cerr << "               [ -frac dctFraction (def 0.2) ]\n";
+    std::cerr << "               [ -qe quantizationExponent (!do not change!) (def 11) ]\n";
+    std::cerr << "               [ -qm quantizationMantissa (!do not change!) (def 11) ]\n";
     std::cerr << "               outputfile\n";
 }
 
@@ -34,10 +36,10 @@ int main(int argc, char *argv[]) {
   char outfilename[80];
 
   int blockSize = 1024;
-  double dctFrac = 0.2;
+  double dctFrac = 1;
 
   int quantFrac = 11; // do not change (not implemented), keep at 11
-  int quantMant = 2;
+  int quantMant = 10;
 
 	if(argc < 3) {
 	  showhelp();
@@ -61,6 +63,14 @@ int main(int argc, char *argv[]) {
 
 	  if(std::string(argv[n]) == "-frac") {
       blockSize = atof(argv[++n]);
+	  }
+
+	  if(std::string(argv[n]) == "-qf") {
+      // quantFrac = atof(argv[++n]);
+	  }
+
+	  if(std::string(argv[n]) == "-qm") {
+      quantMant = atof(argv[++n]);
 	  }
 	}
 
@@ -130,11 +140,12 @@ int main(int argc, char *argv[]) {
     int loops = 0;
     fftw_plan plan_decompress = fftw_plan_r2r_1d(blockSize, x, x, FFTW_REDFT01, FFTW_ESTIMATE);
     union DoubleBitManipulation n;
-    while( loops++ < 1000 ) {
+    while( true ) {
       for(int c=0; c<nChannels; c++) {
         for(int j=0; j<blockSize; j++) {
           if( j<blockSize*dctFrac ) {
-            infile.readBits64(&n.bits, quantFrac+quantMant+1);
+            int err = infile.readBits64(&n.bits, quantFrac+quantMant+1);
+            if( err ) return 0;
             x[j] = n.value;
           } else {
             x[j] = 0;

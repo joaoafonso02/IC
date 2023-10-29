@@ -103,12 +103,12 @@ At the end of two commands run `dif inputFileName1.txt outputFileName` in order 
 ### Exercise 7
 **Compress File**
 ```bash
-../sndfile-example-bin/wav_dct -c <inputfile.wav>
-```
-
-
-**Decompress File**
-```bash
-../sndfile-example-bin/wav_dct -d <inputfile.wav>
+    Usage: wav_dct [ -c file to compress ]
+                   [ -d file to decompress ]
+                   [ -bs blockSize (def 1024) ]
+                   [ -frac dctFraction (def 0.2) ]
+                   [ -qe quantizationExponent (!do not change!) (def 11) ]
+                   [ -qm quantizationMantissa (!do not change!) (def 11) ]
+                   outputfile
 ```
 
