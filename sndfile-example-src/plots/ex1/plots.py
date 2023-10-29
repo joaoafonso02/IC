@@ -36,7 +36,7 @@ with open('../../outch0.data', 'r') as mse_file:
     # MSE plot
     # plt.subplot(131)
     if args.bars:
-        plt.bar(x_values, y_values, width=(32768*2)/(pow(2,args.quantization)) )
+        plt.bar(x_values, y_values, width=(32768*2)/(pow(2,args.quantization)), edgecolor='black' )
     else:
         plt.scatter(x_values, y_values, marker='o', s=1)
 
@@ -71,7 +71,7 @@ with open('../../outch1.data', 'r') as mse_file:
     # MSE plot
     # plt.subplot(131)
     if args.bars:
-        plt.bar(x_values, y_values, width=(32768*2)/(pow(2,args.quantization)) )
+        plt.bar(x_values, y_values, width=(32768*2)/(pow(2,args.quantization)), edgecolor='black' )
     else:
         plt.scatter(x_values, y_values, marker='o', s=1)
 
@@ -106,7 +106,7 @@ with open('../../outmono.data', 'r') as mse_file:
     # MSE plot
     # plt.subplot(131)
     if args.bars:
-        plt.bar(x_values, y_values, width=(32768*2)/(pow(2,args.quantization)) )
+        plt.bar(x_values, y_values, width=(32768*2)/(pow(2,args.quantization)), edgecolor='black' )
     else:
         plt.scatter(x_values, y_values, marker='o', s=1)
 
@@ -141,7 +141,7 @@ with open('../../outdiff.data', 'r') as mse_file:
     # MSE plot
     # plt.subplot(131)
     if args.bars:
-        plt.bar(x_values, y_values, width=(32768*2)/(pow(2,args.quantization)) )
+        plt.bar(x_values, y_values, width=(32768*2)/(pow(2,args.quantization)), edgecolor='black' )
     else:
         plt.scatter(x_values, y_values, marker='o', s=1)
 
