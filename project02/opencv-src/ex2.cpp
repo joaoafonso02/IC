@@ -20,27 +20,48 @@ int main(int argc, char* argv[]) {
     }
 
     // Load the input image
-    cv::Mat inputImage = cv::imread(argv[1]);
+    Mat image = imread(argv[1]);
 
-    if (inputImage.empty()) {
-        std::cerr << "Error: Unable to load input image." << std::endl;
+    if (image.empty()) {
+        cerr << "Error: Unable to load input image." << endl;
         return 1;
     }
 
     // Get the selected option
-    std::string option = argv[3];
+    string option = argv[3];
 
     if (option == "-negative") {
-        // Implement the negative image creation
-        // ...
+        for(int i = 0; i < image.rows; i++) {
+            for(int j = 0; j < image.cols * image.channels(); j++) { // or instead just image.cols
+                image.at<uchar>(i, j) = 255 - image.at<uchar>(i, j); // or image.at<uchar>(i, j) = 255 - image.at<uchar>(i, j);
+            }
+        }
+        imshow("New Negative Image", image);
 
     } else if (option == "-rotate_horizontally") {
-        // Implement horizontal mirror
-        // ...
+    for (int i = 0; i < image.rows; i++) {
+        for (int j = 0; j < image.cols / 2; j++) { // split half the image vertically (col), since its the vertical axe we trying to mirror
+            for (int c = 0; c < image.channels(); c++) { // go to the three color channels r,g,b
+                uchar temp = image.at<uchar>(i, j * image.channels() + c);
+                image.at<uchar>(i, j * image.channels() + c) = image.at<uchar>(i, (image.cols - j - 1) * image.channels() + c);
+                image.at<uchar>(i, (image.cols - j - 1) * image.channels() + c) = temp;
+            }
+        }
+    }
+    imshow("Horizontally Mirrored Image", image);
+}
+ else if (option == "-rotate_vertically") {
+       for (int i = 0; i < image.rows / 2; i++) { // // split half the image horizontally (row), since its the vertical axe we trying to mirror
+            for (int j = 0; j < image.cols * image.channels(); j++) {
+                for (int c = 0; c < image.channels(); c++) { // go to the three color channels r,g,b
+                    uchar temp = image.at<uchar>(i, j);
+                    image.at<uchar>(i, j) = image.at<uchar>(image.rows - i - 1, j);
+                    image.at<uchar>(image.rows - i - 1, j) = temp;
+                }
+            }
+        }
 
-    } else if (option == "-rotate_vertically") {
-        // Implement vertical mirror
-        // ...
+        imshow("Vertically Mirrored Image", image);
 
     } else if (option == "-rotate_mulx90") {
         // Implement image rotation by 90 degrees
@@ -62,7 +83,11 @@ int main(int argc, char* argv[]) {
     }
 
     // Save the modified image to the output file
-    cv::imwrite(argv[2], inputImage);
+    imwrite(argv[2], image);
+
+    cout << "Process Completed. Saved as " << argv[2] << std::endl;
+
+    waitKey(0); // Wait for user input
 
     return 0;
 }

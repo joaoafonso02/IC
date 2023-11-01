@@ -25,7 +25,7 @@ int main(int argc, char** argv) {
     uchar* pixel;
     for (int i = 0; i < image.rows; i++) {
         pixel = image.ptr<uchar>(i);
-        for (int j = 0; j < image.cols; j++) {
+        for (int j = 0; j < image.cols; j++) { // https://docs.opencv.org/3.4/dc/d84/group__core__basic.html
             if (strcmp(argv[3], "copy") == 0) {
                 newImage.at<Vec3b>(i, j) = image.at<Vec3b>(i, j);  // Copy the entire image
             } else {
