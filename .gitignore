@@ -1,4 +1,5 @@
 project02//sndfile-example-bin
 /project01/sndfile-example-src/build/
 .DS_Store
-/project02/build/
+/project02/openCV-example-bin
+/project02/openCV-example-src/build/
