@@ -39,18 +39,17 @@ int main(int argc, char* argv[]) {
         imshow("New Negative Image", image);
 
     } else if (option == "-rotate_horizontally") {
-    for (int i = 0; i < image.rows; i++) {
-        for (int j = 0; j < image.cols / 2; j++) { // split half the image vertically (col), since its the vertical axe we trying to mirror
-            for (int c = 0; c < image.channels(); c++) { // go to the three color channels r,g,b
-                uchar temp = image.at<uchar>(i, j * image.channels() + c);
-                image.at<uchar>(i, j * image.channels() + c) = image.at<uchar>(i, (image.cols - j - 1) * image.channels() + c);
-                image.at<uchar>(i, (image.cols - j - 1) * image.channels() + c) = temp;
+        for (int i = 0; i < image.rows; i++) {
+            for (int j = 0; j < image.cols / 2; j++) { // split half the image vertically (col), since its the vertical axe we trying to mirror
+                for (int c = 0; c < image.channels(); c++) { // go to the three color channels r,g,b
+                    uchar temp = image.at<uchar>(i, j * image.channels() + c);
+                    image.at<uchar>(i, j * image.channels() + c) = image.at<uchar>(i, (image.cols - j - 1) * image.channels() + c);
+                    image.at<uchar>(i, (image.cols - j - 1) * image.channels() + c) = temp;
+                }
             }
         }
-    }
-    imshow("Horizontally Mirrored Image", image);
-}
- else if (option == "-rotate_vertically") {
+        imshow("Horizontally Mirrored Image", image);
+    } else if (option == "-rotate_vertically") {
        for (int i = 0; i < image.rows / 2; i++) { // // split half the image horizontally (row), since its the vertical axe we trying to mirror
             for (int j = 0; j < image.cols * image.channels(); j++) {
                 for (int c = 0; c < image.channels(); c++) { // go to the three color channels r,g,b
