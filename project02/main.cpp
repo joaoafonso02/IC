@@ -18,7 +18,7 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    char channel = argv[3][0];
+    char channel = argv[3][0]; // red, green or blue
     Mat newImage = Mat::zeros(image.size(), image.type()); // new image all pixels = 0
 
     // Loop through the image and copy the specified color channel or the entire image
