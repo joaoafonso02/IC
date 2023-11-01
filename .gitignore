@@ -1,3 +1,4 @@
-/sndfile-example-bin
-/sndfile-example-src/build/
+project02//sndfile-example-bin
+/project01/sndfile-example-src/build/
 .DS_Store
+/project02/build/
