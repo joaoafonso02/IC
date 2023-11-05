@@ -42,7 +42,7 @@ int main(int argc, char* argv[]) {
     } else if (option == "-rotate_horizontally") {
         for (int i = 0; i < image.rows; i++) {
             for (int j = 0; j < image.cols / 2; j++) {
-                for (int c = 0; c < 3; c++) {  // Loop through the three color channels
+                for (int c = 0; c < image.channels(); c++) {  // Loop through the three color channels
                     Vec3b temp = image.at<Vec3b>(i, j);
                     image.at<Vec3b>(i, j)[c] = image.at<Vec3b>(i, image.cols - j - 1)[c];
                     image.at<Vec3b>(i, image.cols - j - 1)[c] = temp[c];
@@ -54,7 +54,7 @@ int main(int argc, char* argv[]) {
     } else if (option == "-rotate_vertically") {
         for (int i = 0; i < image.rows / 2; i++) {
             for (int j = 0; j < image.cols; j++) {
-                for (int c = 0; c < 3; c++) {  // Loop through the three color channels
+                for (int c = 0; c < image.channels(); c++) {  // Loop through the three color channels
                     Vec3b temp = image.at<Vec3b>(i, j);
                     image.at<Vec3b>(i, j)[c] = image.at<Vec3b>(image.rows - i - 1, j)[c];
                     image.at<Vec3b>(image.rows - i - 1, j)[c] = temp[c];
