@@ -31,37 +31,37 @@ int main(int argc, char* argv[]) {
     string option = argv[3];
 
     if (option == "-negative") {
-        for(int i = 0; i < image.rows; i++) {
-            for(int j = 0; j < image.cols * image.channels(); j++) { // or instead just image.cols
-                image.at<uchar>(i, j) = 255 - image.at<uchar>(i, j); // or image.at<uchar>(i, j) = 255 - image.at<uchar>(i, j);
+        for (int i = 0; i < image.rows; i++) {
+            for (int j = 0; j < image.cols; j++) {
+                for (int c = 0; c < image.channels(); c++) {
+                    image.at<Vec3b>(i, j)[c] = 255 - image.at<Vec3b>(i, j)[c];
+                }
             }
         }
         imshow("New Negative Image", image);
-
     } else if (option == "-rotate_horizontally") {
         for (int i = 0; i < image.rows; i++) {
-            for (int j = 0; j < image.cols / 2; j++) { // split half the image vertically (col), since its the vertical axe we trying to mirror
-                for (int c = 0; c < image.channels(); c++) { // go to the three color channels r,g,b
-                    uchar temp = image.at<uchar>(i, j * image.channels() + c);
-                    image.at<uchar>(i, j * image.channels() + c) = image.at<uchar>(i, (image.cols - j - 1) * image.channels() + c);
-                    image.at<uchar>(i, (image.cols - j - 1) * image.channels() + c) = temp;
+            for (int j = 0; j < image.cols / 2; j++) {
+                for (int c = 0; c < 3; c++) {  // Loop through the three color channels
+                    Vec3b temp = image.at<Vec3b>(i, j);
+                    image.at<Vec3b>(i, j)[c] = image.at<Vec3b>(i, image.cols - j - 1)[c];
+                    image.at<Vec3b>(i, image.cols - j - 1)[c] = temp[c];
                 }
             }
         }
         imshow("Horizontally Mirrored Image", image);
+
     } else if (option == "-rotate_vertically") {
-       for (int i = 0; i < image.rows / 2; i++) { // // split half the image horizontally (row), since its the vertical axe we trying to mirror
-            for (int j = 0; j < image.cols * image.channels(); j++) {
-                for (int c = 0; c < image.channels(); c++) { // go to the three color channels r,g,b
-                    uchar temp = image.at<uchar>(i, j);
-                    image.at<uchar>(i, j) = image.at<uchar>(image.rows - i - 1, j);
-                    image.at<uchar>(image.rows - i - 1, j) = temp;
+        for (int i = 0; i < image.rows / 2; i++) {
+            for (int j = 0; j < image.cols; j++) {
+                for (int c = 0; c < 3; c++) {  // Loop through the three color channels
+                    Vec3b temp = image.at<Vec3b>(i, j);
+                    image.at<Vec3b>(i, j)[c] = image.at<Vec3b>(image.rows - i - 1, j)[c];
+                    image.at<Vec3b>(image.rows - i - 1, j)[c] = temp[c];
                 }
             }
         }
-
         imshow("Vertically Mirrored Image", image);
-
     } else if (option == "-rotate") {
         int rotation = stoi(argv[4]);
         if (rotation % 90 != 0) {
@@ -72,14 +72,14 @@ int main(int argc, char* argv[]) {
         cout << num_rotations;
 
         for (int i = 0; i < image.rows; i++) {
-            for (int j = 0; j < image.cols; j++) {
+            for (int j = 0; j < image.cols * image.channels(); j++) {
                 for (int c = 0; c < image.channels(); c++) {
                     // R90º (x,y) = (-y,x)
                     // R180º(x,y) = (-x,-y)
                     // R-90º (x,y) = (y,-x)
                     // R-180º (x,y) = (-x,-y)
                     // Rotate pixel based on the number of rotations
-                    if(num_rotations == 1) {
+                    if (num_rotations == 1) {
                         image.at<Vec3b>(i, j)[c] = image.at<Vec3b>(image.rows - j - 1, i)[c];
                     } else if (num_rotations == 2) {
                         image.at<Vec3b>(i, j)[c] = image.at<Vec3b>(image.rows - i - 1, image.cols - j - 1)[c];
@@ -134,8 +134,6 @@ int main(int argc, char* argv[]) {
                 image.at<Vec3b>(i, j)[2] = average;
             }
         }
-
-
         imshow("Black and White Image", image);
 
     } else {
