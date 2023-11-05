@@ -1,0 +1,11 @@
+# Lines below are used to ignore all files without extensions
+*
+!*.*
+# Dont forget makefile
+!Makefile
+
+.cache/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+compile_commands.json
