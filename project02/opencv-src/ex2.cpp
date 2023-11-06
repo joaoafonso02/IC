@@ -15,6 +15,7 @@ int main(int argc, char* argv[]) {
         cerr << "  -rotate <multiple of 90º>    Rotates an image by a multiple of 90º\n";
         cerr << "  -increase_light <constant>   Increases (more light) of an image\n";
         cerr << "  -decrease_light <constant>   Decreases (less light) of an image\n";
+        cerr << "  -black_white                 Creates a black and white version of an image\n";
         
         return 1;
     }
@@ -74,11 +75,6 @@ int main(int argc, char* argv[]) {
         for (int i = 0; i < image.rows; i++) {
             for (int j = 0; j < image.cols * image.channels(); j++) {
                 for (int c = 0; c < image.channels(); c++) {
-                    // R90º (x,y) = (-y,x)
-                    // R180º(x,y) = (-x,-y)
-                    // R-90º (x,y) = (y,-x)
-                    // R-180º (x,y) = (-x,-y)
-                    // Rotate pixel based on the number of rotations
                     if (num_rotations == 1) {
                         image.at<Vec3b>(i, j)[c] = image.at<Vec3b>(image.rows - j - 1, i)[c];
                     } else if (num_rotations == 2) {
