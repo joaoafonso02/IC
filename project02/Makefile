@@ -181,125 +181,125 @@ light/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/light.dir/build.make CMakeFiles/light.dir/build
 .PHONY : light/fast
 
-extract_channel.o: extract_channel.cpp.o
-.PHONY : extract_channel.o
+src/extract_channel.o: src/extract_channel.cpp.o
+.PHONY : src/extract_channel.o
 
 # target to build an object file
-extract_channel.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/extract_channel.dir/build.make CMakeFiles/extract_channel.dir/extract_channel.cpp.o
-.PHONY : extract_channel.cpp.o
+src/extract_channel.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extract_channel.dir/build.make CMakeFiles/extract_channel.dir/src/extract_channel.cpp.o
+.PHONY : src/extract_channel.cpp.o
 
-extract_channel.i: extract_channel.cpp.i
-.PHONY : extract_channel.i
+src/extract_channel.i: src/extract_channel.cpp.i
+.PHONY : src/extract_channel.i
 
 # target to preprocess a source file
-extract_channel.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/extract_channel.dir/build.make CMakeFiles/extract_channel.dir/extract_channel.cpp.i
-.PHONY : extract_channel.cpp.i
+src/extract_channel.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extract_channel.dir/build.make CMakeFiles/extract_channel.dir/src/extract_channel.cpp.i
+.PHONY : src/extract_channel.cpp.i
 
-extract_channel.s: extract_channel.cpp.s
-.PHONY : extract_channel.s
+src/extract_channel.s: src/extract_channel.cpp.s
+.PHONY : src/extract_channel.s
 
 # target to generate assembly for a file
-extract_channel.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/extract_channel.dir/build.make CMakeFiles/extract_channel.dir/extract_channel.cpp.s
-.PHONY : extract_channel.cpp.s
+src/extract_channel.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/extract_channel.dir/build.make CMakeFiles/extract_channel.dir/src/extract_channel.cpp.s
+.PHONY : src/extract_channel.cpp.s
 
-light.o: light.cpp.o
-.PHONY : light.o
+src/light.o: src/light.cpp.o
+.PHONY : src/light.o
 
 # target to build an object file
-light.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/light.dir/build.make CMakeFiles/light.dir/light.cpp.o
-.PHONY : light.cpp.o
+src/light.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/light.dir/build.make CMakeFiles/light.dir/src/light.cpp.o
+.PHONY : src/light.cpp.o
 
-light.i: light.cpp.i
-.PHONY : light.i
+src/light.i: src/light.cpp.i
+.PHONY : src/light.i
 
 # target to preprocess a source file
-light.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/light.dir/build.make CMakeFiles/light.dir/light.cpp.i
-.PHONY : light.cpp.i
+src/light.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/light.dir/build.make CMakeFiles/light.dir/src/light.cpp.i
+.PHONY : src/light.cpp.i
 
-light.s: light.cpp.s
-.PHONY : light.s
+src/light.s: src/light.cpp.s
+.PHONY : src/light.s
 
 # target to generate assembly for a file
-light.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/light.dir/build.make CMakeFiles/light.dir/light.cpp.s
-.PHONY : light.cpp.s
+src/light.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/light.dir/build.make CMakeFiles/light.dir/src/light.cpp.s
+.PHONY : src/light.cpp.s
 
-mirror.o: mirror.cpp.o
-.PHONY : mirror.o
+src/mirror.o: src/mirror.cpp.o
+.PHONY : src/mirror.o
 
 # target to build an object file
-mirror.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mirror.dir/build.make CMakeFiles/mirror.dir/mirror.cpp.o
-.PHONY : mirror.cpp.o
+src/mirror.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mirror.dir/build.make CMakeFiles/mirror.dir/src/mirror.cpp.o
+.PHONY : src/mirror.cpp.o
 
-mirror.i: mirror.cpp.i
-.PHONY : mirror.i
+src/mirror.i: src/mirror.cpp.i
+.PHONY : src/mirror.i
 
 # target to preprocess a source file
-mirror.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mirror.dir/build.make CMakeFiles/mirror.dir/mirror.cpp.i
-.PHONY : mirror.cpp.i
+src/mirror.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mirror.dir/build.make CMakeFiles/mirror.dir/src/mirror.cpp.i
+.PHONY : src/mirror.cpp.i
 
-mirror.s: mirror.cpp.s
-.PHONY : mirror.s
+src/mirror.s: src/mirror.cpp.s
+.PHONY : src/mirror.s
 
 # target to generate assembly for a file
-mirror.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/mirror.dir/build.make CMakeFiles/mirror.dir/mirror.cpp.s
-.PHONY : mirror.cpp.s
+src/mirror.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mirror.dir/build.make CMakeFiles/mirror.dir/src/mirror.cpp.s
+.PHONY : src/mirror.cpp.s
 
-negative.o: negative.cpp.o
-.PHONY : negative.o
+src/negative.o: src/negative.cpp.o
+.PHONY : src/negative.o
 
 # target to build an object file
-negative.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/negative.dir/build.make CMakeFiles/negative.dir/negative.cpp.o
-.PHONY : negative.cpp.o
+src/negative.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/negative.dir/build.make CMakeFiles/negative.dir/src/negative.cpp.o
+.PHONY : src/negative.cpp.o
 
-negative.i: negative.cpp.i
-.PHONY : negative.i
+src/negative.i: src/negative.cpp.i
+.PHONY : src/negative.i
 
 # target to preprocess a source file
-negative.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/negative.dir/build.make CMakeFiles/negative.dir/negative.cpp.i
-.PHONY : negative.cpp.i
+src/negative.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/negative.dir/build.make CMakeFiles/negative.dir/src/negative.cpp.i
+.PHONY : src/negative.cpp.i
 
-negative.s: negative.cpp.s
-.PHONY : negative.s
+src/negative.s: src/negative.cpp.s
+.PHONY : src/negative.s
 
 # target to generate assembly for a file
-negative.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/negative.dir/build.make CMakeFiles/negative.dir/negative.cpp.s
-.PHONY : negative.cpp.s
+src/negative.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/negative.dir/build.make CMakeFiles/negative.dir/src/negative.cpp.s
+.PHONY : src/negative.cpp.s
 
-rotate.o: rotate.cpp.o
-.PHONY : rotate.o
+src/rotate.o: src/rotate.cpp.o
+.PHONY : src/rotate.o
 
 # target to build an object file
-rotate.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/rotate.dir/build.make CMakeFiles/rotate.dir/rotate.cpp.o
-.PHONY : rotate.cpp.o
+src/rotate.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/rotate.dir/build.make CMakeFiles/rotate.dir/src/rotate.cpp.o
+.PHONY : src/rotate.cpp.o
 
-rotate.i: rotate.cpp.i
-.PHONY : rotate.i
+src/rotate.i: src/rotate.cpp.i
+.PHONY : src/rotate.i
 
 # target to preprocess a source file
-rotate.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/rotate.dir/build.make CMakeFiles/rotate.dir/rotate.cpp.i
-.PHONY : rotate.cpp.i
+src/rotate.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/rotate.dir/build.make CMakeFiles/rotate.dir/src/rotate.cpp.i
+.PHONY : src/rotate.cpp.i
 
-rotate.s: rotate.cpp.s
-.PHONY : rotate.s
+src/rotate.s: src/rotate.cpp.s
+.PHONY : src/rotate.s
 
 # target to generate assembly for a file
-rotate.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/rotate.dir/build.make CMakeFiles/rotate.dir/rotate.cpp.s
-.PHONY : rotate.cpp.s
+src/rotate.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/rotate.dir/build.make CMakeFiles/rotate.dir/src/rotate.cpp.s
+.PHONY : src/rotate.cpp.s
 
 # Help Target
 help:
@@ -314,21 +314,21 @@ help:
 	@echo "... mirror"
 	@echo "... negative"
 	@echo "... rotate"
-	@echo "... extract_channel.o"
-	@echo "... extract_channel.i"
-	@echo "... extract_channel.s"
-	@echo "... light.o"
-	@echo "... light.i"
-	@echo "... light.s"
-	@echo "... mirror.o"
-	@echo "... mirror.i"
-	@echo "... mirror.s"
-	@echo "... negative.o"
-	@echo "... negative.i"
-	@echo "... negative.s"
-	@echo "... rotate.o"
-	@echo "... rotate.i"
-	@echo "... rotate.s"
+	@echo "... src/extract_channel.o"
+	@echo "... src/extract_channel.i"
+	@echo "... src/extract_channel.s"
+	@echo "... src/light.o"
+	@echo "... src/light.i"
+	@echo "... src/light.s"
+	@echo "... src/mirror.o"
+	@echo "... src/mirror.i"
+	@echo "... src/mirror.s"
+	@echo "... src/negative.o"
+	@echo "... src/negative.i"
+	@echo "... src/negative.s"
+	@echo "... src/rotate.o"
+	@echo "... src/rotate.i"
+	@echo "... src/rotate.s"
 .PHONY : help
 
 

@@ -1,20 +1,25 @@
 cmake_minimum_required(VERSION 3.22)
 project( Project2 )
 find_package( OpenCV REQUIRED )
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_SRC ${CMAKE_BINARY_DIR}/src)
+
 include_directories( ${OpenCV_INCLUDE_DIRS} )
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-add_executable( extract_channel extract_channel.cpp )
+
+add_executable( extract_channel src/extract_channel.cpp )
 target_link_libraries( extract_channel ${OpenCV_LIBS} )
 
-add_executable( negative negative.cpp )
+add_executable( negative src/negative.cpp )
 target_link_libraries( negative ${OpenCV_LIBS} )
 
-add_executable( mirror mirror.cpp )
+add_executable( mirror src/mirror.cpp )
 target_link_libraries( mirror ${OpenCV_LIBS} )
 
-add_executable( rotate rotate.cpp )
+add_executable( rotate src/rotate.cpp )
 target_link_libraries( rotate ${OpenCV_LIBS} )
 
-add_executable( light light.cpp )
+add_executable( light src/light.cpp )
 target_link_libraries( light ${OpenCV_LIBS} )
