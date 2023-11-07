@@ -25,3 +25,5 @@ add_executable( light src/light.cpp )
 target_link_libraries( light ${OpenCV_LIBS} )
 
 add_executable( test_BitStream src/test_BitStream.cpp src/include/BitStream.cpp )
+
+add_executable( test_Golomb src/test_Golomb.cpp src/include/Golomb.cpp src/include/BitStream.cpp )

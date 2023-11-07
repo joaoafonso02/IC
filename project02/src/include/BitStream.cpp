@@ -67,7 +67,6 @@ uint8_t BitStream::readNBits(uint64_t *data, uint8_t n) {
   uint8_t i, bit;
   for(i=0; i<n; i++) {
     if( BitStream::readBit(&bit) ) return 1;
-    printf("-> %x\n", bit);
     *data = (*data << 1) | bit;
   }
   *data <<= (64 - i);
