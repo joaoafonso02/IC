@@ -1,9 +1,6 @@
 # Lines below are used to ignore all files without extensions
-*
-!*.*
-# Dont forget makefile
-!Makefile
 
+bin/
 .cache/
 CMakeFiles/
 CMakeCache.txt
