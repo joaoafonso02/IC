@@ -181,6 +181,19 @@ light/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/light.dir/build.make CMakeFiles/light.dir/build
 .PHONY : light/fast
 
+#=============================================================================
+# Target rules for targets named test_BitStream
+
+# Build rule for target.
+test_BitStream: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_BitStream
+.PHONY : test_BitStream
+
+# fast build rule for target.
+test_BitStream/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_BitStream.dir/build.make CMakeFiles/test_BitStream.dir/build
+.PHONY : test_BitStream/fast
+
 src/extract_channel.o: src/extract_channel.cpp.o
 .PHONY : src/extract_channel.o
 
@@ -204,6 +217,30 @@ src/extract_channel.s: src/extract_channel.cpp.s
 src/extract_channel.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/extract_channel.dir/build.make CMakeFiles/extract_channel.dir/src/extract_channel.cpp.s
 .PHONY : src/extract_channel.cpp.s
+
+src/include/BitStream.o: src/include/BitStream.cpp.o
+.PHONY : src/include/BitStream.o
+
+# target to build an object file
+src/include/BitStream.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_BitStream.dir/build.make CMakeFiles/test_BitStream.dir/src/include/BitStream.cpp.o
+.PHONY : src/include/BitStream.cpp.o
+
+src/include/BitStream.i: src/include/BitStream.cpp.i
+.PHONY : src/include/BitStream.i
+
+# target to preprocess a source file
+src/include/BitStream.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_BitStream.dir/build.make CMakeFiles/test_BitStream.dir/src/include/BitStream.cpp.i
+.PHONY : src/include/BitStream.cpp.i
+
+src/include/BitStream.s: src/include/BitStream.cpp.s
+.PHONY : src/include/BitStream.s
+
+# target to generate assembly for a file
+src/include/BitStream.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_BitStream.dir/build.make CMakeFiles/test_BitStream.dir/src/include/BitStream.cpp.s
+.PHONY : src/include/BitStream.cpp.s
 
 src/light.o: src/light.cpp.o
 .PHONY : src/light.o
@@ -301,6 +338,30 @@ src/rotate.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/rotate.dir/build.make CMakeFiles/rotate.dir/src/rotate.cpp.s
 .PHONY : src/rotate.cpp.s
 
+src/test_BitStream.o: src/test_BitStream.cpp.o
+.PHONY : src/test_BitStream.o
+
+# target to build an object file
+src/test_BitStream.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_BitStream.dir/build.make CMakeFiles/test_BitStream.dir/src/test_BitStream.cpp.o
+.PHONY : src/test_BitStream.cpp.o
+
+src/test_BitStream.i: src/test_BitStream.cpp.i
+.PHONY : src/test_BitStream.i
+
+# target to preprocess a source file
+src/test_BitStream.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_BitStream.dir/build.make CMakeFiles/test_BitStream.dir/src/test_BitStream.cpp.i
+.PHONY : src/test_BitStream.cpp.i
+
+src/test_BitStream.s: src/test_BitStream.cpp.s
+.PHONY : src/test_BitStream.s
+
+# target to generate assembly for a file
+src/test_BitStream.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_BitStream.dir/build.make CMakeFiles/test_BitStream.dir/src/test_BitStream.cpp.s
+.PHONY : src/test_BitStream.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -314,9 +375,13 @@ help:
 	@echo "... mirror"
 	@echo "... negative"
 	@echo "... rotate"
+	@echo "... test_BitStream"
 	@echo "... src/extract_channel.o"
 	@echo "... src/extract_channel.i"
 	@echo "... src/extract_channel.s"
+	@echo "... src/include/BitStream.o"
+	@echo "... src/include/BitStream.i"
+	@echo "... src/include/BitStream.s"
 	@echo "... src/light.o"
 	@echo "... src/light.i"
 	@echo "... src/light.s"
@@ -329,6 +394,9 @@ help:
 	@echo "... src/rotate.o"
 	@echo "... src/rotate.i"
 	@echo "... src/rotate.s"
+	@echo "... src/test_BitStream.o"
+	@echo "... src/test_BitStream.i"
+	@echo "... src/test_BitStream.s"
 .PHONY : help
 
 

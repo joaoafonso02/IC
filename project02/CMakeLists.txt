@@ -23,3 +23,5 @@ target_link_libraries( rotate ${OpenCV_LIBS} )
 
 add_executable( light src/light.cpp )
 target_link_libraries( light ${OpenCV_LIBS} )
+
+add_executable( test_BitStream src/test_BitStream.cpp src/include/BitStream.cpp )
