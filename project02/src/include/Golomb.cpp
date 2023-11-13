@@ -14,7 +14,7 @@ Golomb::Golomb(uint im, BitStream *ibs) {
 }
 
 int Golomb::encode(int n) {
-  uint nn;
+  uint nn = n;
   if( n<0 ) nn = -n*2-1;
   else nn = n*2;
   
@@ -26,10 +26,12 @@ int Golomb::encode(int n) {
   for(i=0; i<q; i++) {
     code = (code << 1) | 0x1;
   }
-  code = (code << (1 + b)) | r; 
 
-  int size = q+1+b;
-  bs->writeNBits(code << (64-size), q+1+b);
+  int truncated = r >= (b-1)*(b-1)-1;
+  code = (code << (b+truncated)) | (truncated ? (0x1<<(b-1)) : 0) | (r-truncated);
+
+  int size = q+b+truncated;
+  bs->writeNBits(code << (64-size), size);
 
   return 0;
 }
@@ -45,14 +47,21 @@ int Golomb::decode() {
   }
   q--;
 
-  bs->readNBits(&r, b);
-  r >>= 64-b;
+  int truncated = 0;
+  int i = 0;
+  while( i<b+truncated-1 ) {
+    bs->readBit(&bit); 
+    r = (r<<1) | bit;
+    i++;
+    if(i==2 && r==0x3) truncated = 1;
+  }
 
-  int n = m*q + r;
+  int n = m*q + (!truncated ? r : (r&~(0x1<<(i-1)))+1);
   if( n%2==1 ) {
     n = -(n+1)/2;
   } else {
     n = n/2;
   }
+  
   return n;
 }
