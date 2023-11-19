@@ -26,6 +26,10 @@ int main(int argc, char** argv)
     }
 
     cv::imwrite(argv[2], out);
+    imshow("Negative Image", out);
+    std::cout << "Process Completed. Saved as " << argv[2] << std::endl;
+
+    cv::waitKey(0); // Wait for user input
 
     return 0; 
 }

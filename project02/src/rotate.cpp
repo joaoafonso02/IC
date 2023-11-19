@@ -28,10 +28,10 @@ int main(int argc, char** argv)
     int y, x, dy, dx;
     for(y=0; y<image.rows; y++) {
         for(x=0; x<image.cols; x++){
-            if( r==1 ) {
+            if( r==1 ) { 
               dy = image.cols - x - 1;
               dx = y;
-            } else if( r==2 ) {
+            } else if( r==2 ) { 
               dy = image.rows - y - 1;
               dx = image.cols - x - 1;
             } else if( r==3 ) {
@@ -43,6 +43,10 @@ int main(int argc, char** argv)
     }
 
     cv::imwrite(argv[3], out);
+    imshow("New Image", out);
+    std::cout << "Process Completed. Saved as " << argv[2] << std::endl;
+
+    cv::waitKey(0); // Wait for user input
 
     return 0; 
 }
