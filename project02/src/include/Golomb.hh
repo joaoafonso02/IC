@@ -8,7 +8,7 @@ class Golomb {
 private:
   uint m;
   uint b;
-  uint cutoff;
+  uint c;
   BitStream *bs;
 public:
   Golomb(uint m, BitStream *bs);

@@ -3,7 +3,8 @@
 #include <stdio.h>
 #include <sndfile.hh>
 
-
+#define BLOCKSIZE 1024
+#define GOLOMB_M 2048;
 
 int main(int argc, char** argv) {
   // find best M (go throw all the file and create a histogram)
@@ -13,7 +14,7 @@ int main(int argc, char** argv) {
   printf("sr %d\n\n", wav.samplerate());
 
   int histogram[32768*2] = {0};
-  int bs = 1024;
+  int bs = BLOCKSIZE;
 
   short samples[bs*wav.channels()];
   int nframes;
@@ -49,17 +50,18 @@ int main(int argc, char** argv) {
   
   // TODO: find best M
 
-  int m = 16;
+  int m = GOLOMB_M;
   wav.seek(0, 0);
 
   BitStream fs = BitStream("golomb.bin", BitStream::w);
   Golomb g = Golomb(m, &fs);
 
-  short prev[2] = {0};
+  short prev[2] = {0, 0};
   short error;
   while( (nframes = wav.readf(samples, bs)) ) {
+    printf("NEW BLOCK\n");
     for(i=0; i<nframes*wav.channels(); i++ ) {
-      error = prev[i%2]-samples[i];
+      error = samples[i]-prev[i%2];
       g.encode(error);
       prev[i%2] = samples[i];
     }

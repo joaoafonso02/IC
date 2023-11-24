@@ -7,11 +7,11 @@
 #include "./Golomb.hh"
 #include "./BitStream.hh"
 
-Golomb::Golomb(uint im, BitStream *ibs) {
-  m = im;
+Golomb::Golomb(uint _m, BitStream *_bs) {
+  m = _m;
   b = floor(log2(m));
-  cutoff = pow(b+1, 2) - m;
-  bs = ibs;
+  c = pow(2, b+1) - m;
+  bs = _bs;
 }
 
 int Golomb::encode(int n) {
@@ -31,15 +31,14 @@ int Golomb::encode(int n) {
   }
   code <<= 1;
 
-  uint truncated = r >= cutoff;
+  uint truncated = r >= c;
   if( truncated ) {
-    code = (code << (b+1)) | (r + cutoff);
+    code = (code << (b+1)) | (r + c);
   } else {
     code = (code << b) | r;
   }
 
-  uint size = q+1+b+(int)truncated;
-  printf("-> %d : %lx %d\n", nn, code, size);
+  uint size = q+1+b+truncated;
   bs->writeNBits(code << (64-size), size);
 
   return 0;
@@ -60,11 +59,11 @@ int Golomb::decode(int *g) {
 
   bs->readNBits(&r, b);
   r >>= 64-b;
-  if( r>=cutoff ) {
+  if( r>=c) {
     err = bs->readBit(&bit); 
     if(err) return 1;
     r = (r<<1) | bit;
-    r = r - cutoff;
+    r = r - c;
   }
   // printf("q: %d  r: %lx\n", q, r);
 
