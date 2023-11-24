@@ -8,11 +8,12 @@ class Golomb {
 private:
   uint m;
   uint b;
+  uint cutoff;
   BitStream *bs;
 public:
   Golomb(uint m, BitStream *bs);
   int encode(int n);
-  int decode();
+  int decode(int *g);
 };
 
 #endif
