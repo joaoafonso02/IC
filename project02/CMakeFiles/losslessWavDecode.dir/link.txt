@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -Wextra -std=c++17 CMakeFiles/losslessWavDecode.dir/src/losslessWavDecode.cpp.o CMakeFiles/losslessWavDecode.dir/src/include/Golomb.cpp.o CMakeFiles/losslessWavDecode.dir/src/include/BitStream.cpp.o -o bin/losslessWavDecode  -lsndfile 

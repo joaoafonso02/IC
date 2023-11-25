@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -Wextra -std=c++17 CMakeFiles/test_Golomb.dir/src/test_Golomb.cpp.o CMakeFiles/test_Golomb.dir/src/include/Golomb.cpp.o CMakeFiles/test_Golomb.dir/src/include/BitStream.cpp.o -o bin/test_Golomb 

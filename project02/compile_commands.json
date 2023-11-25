@@ -1,0 +1,82 @@
+[
+{
+  "directory": "/home/rafael/Desktop/IC/projetos/project02",
+  "command": "/usr/bin/c++  -isystem /usr/local/include/opencv4  -Wall -Wextra -std=c++17 -o CMakeFiles/extract_channel.dir/src/extract_channel.cpp.o -c /home/rafael/Desktop/IC/projetos/project02/src/extract_channel.cpp",
+  "file": "/home/rafael/Desktop/IC/projetos/project02/src/extract_channel.cpp"
+},
+{
+  "directory": "/home/rafael/Desktop/IC/projetos/project02",
+  "command": "/usr/bin/c++  -isystem /usr/local/include/opencv4  -Wall -Wextra -std=c++17 -o CMakeFiles/negative.dir/src/negative.cpp.o -c /home/rafael/Desktop/IC/projetos/project02/src/negative.cpp",
+  "file": "/home/rafael/Desktop/IC/projetos/project02/src/negative.cpp"
+},
+{
+  "directory": "/home/rafael/Desktop/IC/projetos/project02",
+  "command": "/usr/bin/c++  -isystem /usr/local/include/opencv4  -Wall -Wextra -std=c++17 -o CMakeFiles/mirror.dir/src/mirror.cpp.o -c /home/rafael/Desktop/IC/projetos/project02/src/mirror.cpp",
+  "file": "/home/rafael/Desktop/IC/projetos/project02/src/mirror.cpp"
+},
+{
+  "directory": "/home/rafael/Desktop/IC/projetos/project02",
+  "command": "/usr/bin/c++  -isystem /usr/local/include/opencv4  -Wall -Wextra -std=c++17 -o CMakeFiles/rotate.dir/src/rotate.cpp.o -c /home/rafael/Desktop/IC/projetos/project02/src/rotate.cpp",
+  "file": "/home/rafael/Desktop/IC/projetos/project02/src/rotate.cpp"
+},
+{
+  "directory": "/home/rafael/Desktop/IC/projetos/project02",
+  "command": "/usr/bin/c++  -isystem /usr/local/include/opencv4  -Wall -Wextra -std=c++17 -o CMakeFiles/light.dir/src/light.cpp.o -c /home/rafael/Desktop/IC/projetos/project02/src/light.cpp",
+  "file": "/home/rafael/Desktop/IC/projetos/project02/src/light.cpp"
+},
+{
+  "directory": "/home/rafael/Desktop/IC/projetos/project02",
+  "command": "/usr/bin/c++  -I/usr/local/include/opencv4  -Wall -Wextra -std=c++17 -o CMakeFiles/test_BitStream.dir/src/test_BitStream.cpp.o -c /home/rafael/Desktop/IC/projetos/project02/src/test_BitStream.cpp",
+  "file": "/home/rafael/Desktop/IC/projetos/project02/src/test_BitStream.cpp"
+},
+{
+  "directory": "/home/rafael/Desktop/IC/projetos/project02",
+  "command": "/usr/bin/c++  -I/usr/local/include/opencv4  -Wall -Wextra -std=c++17 -o CMakeFiles/test_BitStream.dir/src/include/BitStream.cpp.o -c /home/rafael/Desktop/IC/projetos/project02/src/include/BitStream.cpp",
+  "file": "/home/rafael/Desktop/IC/projetos/project02/src/include/BitStream.cpp"
+},
+{
+  "directory": "/home/rafael/Desktop/IC/projetos/project02",
+  "command": "/usr/bin/c++  -I/usr/local/include/opencv4  -Wall -Wextra -std=c++17 -o CMakeFiles/test_Golomb.dir/src/test_Golomb.cpp.o -c /home/rafael/Desktop/IC/projetos/project02/src/test_Golomb.cpp",
+  "file": "/home/rafael/Desktop/IC/projetos/project02/src/test_Golomb.cpp"
+},
+{
+  "directory": "/home/rafael/Desktop/IC/projetos/project02",
+  "command": "/usr/bin/c++  -I/usr/local/include/opencv4  -Wall -Wextra -std=c++17 -o CMakeFiles/test_Golomb.dir/src/include/Golomb.cpp.o -c /home/rafael/Desktop/IC/projetos/project02/src/include/Golomb.cpp",
+  "file": "/home/rafael/Desktop/IC/projetos/project02/src/include/Golomb.cpp"
+},
+{
+  "directory": "/home/rafael/Desktop/IC/projetos/project02",
+  "command": "/usr/bin/c++  -I/usr/local/include/opencv4  -Wall -Wextra -std=c++17 -o CMakeFiles/test_Golomb.dir/src/include/BitStream.cpp.o -c /home/rafael/Desktop/IC/projetos/project02/src/include/BitStream.cpp",
+  "file": "/home/rafael/Desktop/IC/projetos/project02/src/include/BitStream.cpp"
+},
+{
+  "directory": "/home/rafael/Desktop/IC/projetos/project02",
+  "command": "/usr/bin/c++  -I/usr/local/include/opencv4  -Wall -Wextra -std=c++17 -o CMakeFiles/losslessWavEncode.dir/src/losslessWavEncode.cpp.o -c /home/rafael/Desktop/IC/projetos/project02/src/losslessWavEncode.cpp",
+  "file": "/home/rafael/Desktop/IC/projetos/project02/src/losslessWavEncode.cpp"
+},
+{
+  "directory": "/home/rafael/Desktop/IC/projetos/project02",
+  "command": "/usr/bin/c++  -I/usr/local/include/opencv4  -Wall -Wextra -std=c++17 -o CMakeFiles/losslessWavEncode.dir/src/include/Golomb.cpp.o -c /home/rafael/Desktop/IC/projetos/project02/src/include/Golomb.cpp",
+  "file": "/home/rafael/Desktop/IC/projetos/project02/src/include/Golomb.cpp"
+},
+{
+  "directory": "/home/rafael/Desktop/IC/projetos/project02",
+  "command": "/usr/bin/c++  -I/usr/local/include/opencv4  -Wall -Wextra -std=c++17 -o CMakeFiles/losslessWavEncode.dir/src/include/BitStream.cpp.o -c /home/rafael/Desktop/IC/projetos/project02/src/include/BitStream.cpp",
+  "file": "/home/rafael/Desktop/IC/projetos/project02/src/include/BitStream.cpp"
+},
+{
+  "directory": "/home/rafael/Desktop/IC/projetos/project02",
+  "command": "/usr/bin/c++  -I/usr/local/include/opencv4  -Wall -Wextra -std=c++17 -o CMakeFiles/losslessWavDecode.dir/src/losslessWavDecode.cpp.o -c /home/rafael/Desktop/IC/projetos/project02/src/losslessWavDecode.cpp",
+  "file": "/home/rafael/Desktop/IC/projetos/project02/src/losslessWavDecode.cpp"
+},
+{
+  "directory": "/home/rafael/Desktop/IC/projetos/project02",
+  "command": "/usr/bin/c++  -I/usr/local/include/opencv4  -Wall -Wextra -std=c++17 -o CMakeFiles/losslessWavDecode.dir/src/include/Golomb.cpp.o -c /home/rafael/Desktop/IC/projetos/project02/src/include/Golomb.cpp",
+  "file": "/home/rafael/Desktop/IC/projetos/project02/src/include/Golomb.cpp"
+},
+{
+  "directory": "/home/rafael/Desktop/IC/projetos/project02",
+  "command": "/usr/bin/c++  -I/usr/local/include/opencv4  -Wall -Wextra -std=c++17 -o CMakeFiles/losslessWavDecode.dir/src/include/BitStream.cpp.o -c /home/rafael/Desktop/IC/projetos/project02/src/include/BitStream.cpp",
+  "file": "/home/rafael/Desktop/IC/projetos/project02/src/include/BitStream.cpp"
+}
+]

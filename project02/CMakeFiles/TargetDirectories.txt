@@ -1,0 +1,11 @@
+/home/rafael/Desktop/IC/projetos/project02/CMakeFiles/extract_channel.dir
+/home/rafael/Desktop/IC/projetos/project02/CMakeFiles/negative.dir
+/home/rafael/Desktop/IC/projetos/project02/CMakeFiles/mirror.dir
+/home/rafael/Desktop/IC/projetos/project02/CMakeFiles/rotate.dir
+/home/rafael/Desktop/IC/projetos/project02/CMakeFiles/light.dir
+/home/rafael/Desktop/IC/projetos/project02/CMakeFiles/test_BitStream.dir
+/home/rafael/Desktop/IC/projetos/project02/CMakeFiles/test_Golomb.dir
+/home/rafael/Desktop/IC/projetos/project02/CMakeFiles/losslessWavEncode.dir
+/home/rafael/Desktop/IC/projetos/project02/CMakeFiles/losslessWavDecode.dir
+/home/rafael/Desktop/IC/projetos/project02/CMakeFiles/edit_cache.dir
+/home/rafael/Desktop/IC/projetos/project02/CMakeFiles/rebuild_cache.dir

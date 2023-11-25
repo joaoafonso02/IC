@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -Wextra -std=c++17 CMakeFiles/test_BitStream.dir/src/test_BitStream.cpp.o CMakeFiles/test_BitStream.dir/src/include/BitStream.cpp.o -o bin/test_BitStream 
