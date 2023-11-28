@@ -1,15 +1,20 @@
 #include "include/BitStream.hh"
 #include "include/Golomb.hh"
+#include <cstdint>
 #include <stdio.h>
 #include <sndfile.hh>
 #include <sys/types.h>
 
 #define BLOCKSIZE 1024
-#define GOLOMB_M 2048
+#define GOLOMB_M 512
 
 int main(int argc, char** argv) {
+  uint64_t m;
   BitStream fs = BitStream("golomb.bin", BitStream::r);
-  Golomb g = Golomb(GOLOMB_M, &fs);
+  fs.readNBits(&m, 32);
+  m >>= 32;
+  printf("Decode M: %ld\n", m);
+  Golomb g = Golomb(m, &fs);
 
   SndfileHandle wav = SndfileHandle("out.wav", SFM_WRITE, 65538, 2, 44100);
 

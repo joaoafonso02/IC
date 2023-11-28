@@ -7,7 +7,7 @@
 #include "./Golomb.hh"
 #include "./BitStream.hh"
 
-Golomb::Golomb(uint _m, BitStream *_bs) {
+Golomb::Golomb(uint32_t _m, BitStream *_bs) {
   m = _m;
   b = floor(log2(m));
   c = pow(2, b+1) - m;
@@ -19,26 +19,26 @@ int Golomb::encode(int n) {
   if( n<0 ) nn = -n*2-1;
   else nn = n*2;
 
-  uint q = nn/m;
-  uint r = nn%m;
+  uint64_t q = nn/m;
+  uint64_t r = nn%m;
 
   uint64_t code = 0;
 
   // add q to code
-  uint i;
+  uint64_t i;
   for(i=0; i<q; i++) {
-    code = (code << 1) | 0x1;
+    bs->writeBit(1);
   }
-  code <<= 1;
+  bs->writeBit(0);
 
-  uint truncated = r >= c;
+  uint64_t truncated = r >= c;
   if( truncated ) {
-    code = (code << (b+1)) | (r + c);
+    code = r + c;
   } else {
-    code = (code << b) | r;
+    code = r;
   }
 
-  uint size = q+1+b+truncated;
+  uint64_t size = b+truncated;
   bs->writeNBits(code << (64-size), size);
 
   return 0;

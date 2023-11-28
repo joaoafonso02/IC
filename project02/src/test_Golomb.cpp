@@ -6,9 +6,9 @@ int main(int argc, char **argv) {
 
   printf("USAGE: ./test_Golomb <file> <0 to write | 1 to read>\n\n");
 
-  int m = 1024;
+  int m = 5;
 
-  int a=-15000, b=15000, c=1; 
+  int a=-50000, b=50000, c=1; 
   if(*argv[2]=='0') {
     BitStream bs = BitStream(argv[1], BitStream::w);
     Golomb g = Golomb(m, &bs);
