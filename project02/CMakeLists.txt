@@ -34,9 +34,9 @@ add_executable( test_BitStream src/test_BitStream.cpp src/include/BitStream.cpp 
 
 add_executable( test_Golomb src/test_Golomb.cpp src/include/Golomb.cpp src/include/BitStream.cpp )
 
-add_executable( losslessWavEncode src/losslessWavEncode.cpp src/include/Golomb.cpp src/include/BitStream.cpp )
-target_link_libraries( losslessWavEncode sndfile )
+add_executable( wavEncode src/wavEncode.cpp src/include/Golomb.cpp src/include/BitStream.cpp )
+target_link_libraries( wavEncode sndfile )
 
-add_executable( losslessWavDecode src/losslessWavDecode.cpp src/include/Golomb.cpp src/include/BitStream.cpp )
-target_link_libraries( losslessWavDecode sndfile )
+add_executable( wavDecode src/wavDecode.cpp src/include/Golomb.cpp src/include/BitStream.cpp )
+target_link_libraries( wavDecode sndfile )
 

@@ -10,10 +10,12 @@ private:
   uint32_t b;
   uint32_t c;
   BitStream *bs;
+
 public:
   Golomb(uint32_t m, BitStream *bs);
   int64_t encode(int64_t n);
   int64_t decode(int64_t *g);
+  uint64_t encode_size(int64_t n);
 };
 
 #endif
