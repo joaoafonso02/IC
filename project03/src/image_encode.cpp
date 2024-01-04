@@ -3,9 +3,9 @@
 #include <cstdint>
 #include <opencv2/opencv.hpp>
 #include <iostream>
-// #include "include/matplotlibcpp.h"
-//
-// namespace plt = matplotlibcpp;
+#include "include/matplotlibcpp.h"
+
+namespace plt = matplotlibcpp;
 
 #define N_PREDICTORS 7
 
@@ -45,7 +45,7 @@ int main(int argc, char** argv)
     }
 
 
-    // cv::Mat outimg(image.size(), CV_8UC1); 
+    cv::Mat outimg(image.size(), CV_8UC1); 
 
     std::vector<int8_t> img[image.rows * image.cols];
     std::vector<std::vector<uint64_t>> hist(N_PREDICTORS, std::vector<uint64_t>(256, 0)); 
@@ -76,6 +76,8 @@ int main(int argc, char** argv)
                 hist[i][error>=0 ? error*2 : -error*2-1] += 1;
                 errors[i][y*image.rows+x] = error;
             }
+
+            outimg.at<uint8_t>(y, x) = error+128;
         }
     }
 
@@ -93,6 +95,10 @@ int main(int argc, char** argv)
     BitStream bs = BitStream("compressed", BitStream::w);
     Golomb g = Golomb(m, &bs);
 
+    bs.writeNBits(uint64_t(m)<<32, 32);
+    bs.writeNBits(uint64_t(i_predictor)<<(64-4), 4);
+    bs.writeNBits(uint64_t(image.rows)<<(64-16), 16);
+    bs.writeNBits(uint64_t(image.cols)<<(64-16), 16);
     for(i=0; i<uint32_t(image.rows*image.cols); i++) g.encode(errors[i_predictor][i]);
 
     // plt::plot(xx, hist);
@@ -105,8 +111,8 @@ int main(int argc, char** argv)
     // plt::plot(xx, hist);
     // plt::show();
     //
-    // cv::imshow("Extracted Gray", outimg);
-    // cv::waitKey(0);
+    cv::imshow("Extracted Gray", outimg);
+    cv::waitKey(0);
 
     return 0; 
 }

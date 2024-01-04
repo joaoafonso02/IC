@@ -19,5 +19,8 @@ include_directories(${Python3_INCLUDE_DIRS})
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-add_executable( image src/image.cpp src/include/Golomb.cpp src/include/BitStream.cpp)
-target_link_libraries( image ${OpenCV_LIBS} ${Python3_LIBRARIES})
+add_executable( image_encode src/image_encode.cpp src/include/Golomb.cpp src/include/BitStream.cpp)
+target_link_libraries( image_encode ${OpenCV_LIBS} ${Python3_LIBRARIES})
+
+add_executable( image_decode src/image_decode.cpp src/include/Golomb.cpp src/include/BitStream.cpp)
+target_link_libraries( image_decode ${OpenCV_LIBS} ${Python3_LIBRARIES})
