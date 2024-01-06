@@ -17,8 +17,10 @@ public:
   BitStream(std::string filename, Flag flag);
   uint8_t writeBit(uint8_t bit);
   uint8_t writeNBits(uint64_t data, uint8_t n);
+  uint8_t mwriteNBits(uint64_t data, uint8_t n);
   uint8_t readBit(uint8_t *bit);
   uint8_t readNBits(uint64_t *data, uint8_t n);
+  uint8_t mreadNBits(uint64_t *data, uint8_t n);
   ~BitStream();
 };
 

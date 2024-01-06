@@ -1,6 +1,8 @@
 #include "include/BitStream.hh"
 #include "include/Golomb.hh"
 #include <cstdint>
+#include <cstdio>
+#include <opencv2/core/matx.hpp>
 #include <opencv2/opencv.hpp>
 #include <iostream>
 // #include "include/matplotlibcpp.h"
@@ -12,63 +14,88 @@
 int main(int argc, char** argv) 
 {
     uint i, j;
+    BitStream bs = BitStream("file.gol", BitStream::r);
+    BitStream out = BitStream("file.y4m", BitStream::w);
 
-    BitStream bs = BitStream("compressed", BitStream::r);
     uint64_t m, i_predictor, width, height;
-    bs.readNBits(&m, 32); m >>= (64-32);
-    bs.readNBits(&i_predictor, 4); i_predictor >>= (64-4);
-    bs.readNBits(&height, 16); height >>= (64-16);
-    bs.readNBits(&width, 16); width >>= (64-16);
-    printf("\nHeader Values:\n");
-    printf("M: %ld\n", m);
-    printf("I_Predictor: %ld\n", i_predictor);
-    printf("Height: %ld\n", height);
-    printf("Width: %ld\n", width);
-    
-    Golomb g = Golomb(m, &bs);
+    bs.mreadNBits(&height, 16);
+    bs.mreadNBits(&width, 16);
+
+    char header[256];
+    std::snprintf(header, sizeof(header), "YUV4MPEG2 W%lu H%lu F30000:1001 Ip A1:1 Cmono", width, height);
+    printf("%s\n", header);
+    for(i=0; header[i]!='\0'; i++) {
+        out.mwriteNBits(header[i], 8); // W352 H288
+    }
+    out.mwriteNBits(0x0A, 8);
+    char str_frame[] = {"FRAME "};
+    str_frame[5] = 0x0A;
 
     cv::Mat image(height, width, CV_8UC1); 
 
-    int y, x;
-    int8_t last = 0, error;
-    uint8_t a=0,b=0,c=0;
-    uint8_t predictor[7];
-    for (y = 0; y < image.rows; y++) {
-        for (x = 0; x < image.cols; x++) {
-            a = x-1<0 ? 0 : image.at<uint8_t>(y, x-1);
-            b = y-1<0 ? 0 : image.at<uint8_t>(y-1, x);
-            c = x-1<0 || y-1<0 ? 0 : image.at<uint8_t>(y-1, x-1);
-            
-            uint8_t predict;
-            switch(i_predictor) {
-              case 0: predict = a; break;
-              case 1: predict = b; break;
-              case 2: predict = c; break;
-              case 3: predict = a+b-c; break;
-              case 4: predict = a+(b-c)/2; break;
-              case 5: predict = b+(a-c)/2; break;
-              case 6: predict = (a+b)/2; break;
-              default: predict = 0; break;
-            }
+    for(i=0; i<300; i++) {
+        bs.mreadNBits(&m, 32);
+        bs.mreadNBits(&i_predictor, 4);
+        printf("\nHeader Values:\n");
+        printf("M: %ld\n", m);
+        printf("I_Predictor: %ld\n", i_predictor);
 
-            int64_t error;
-            g.decode(&error);
-            image.at<uint8_t>(y, x) = predict + error;
+        Golomb g = Golomb(m, &bs);
+
+        for(j=0; str_frame[j]!='\0'; j++) {
+            out.mwriteNBits(str_frame[j], 8);
         }
+
+        uint y, x;
+        int64_t error;
+        uint8_t a, b, c;
+        uint8_t predictor[7];
+        for (y = 0; y < height; y++) {
+            for (x = 0; x < width; x++) {
+                a = x-1<0 ? 0 : image.at<uint8_t>(y, x-1);
+                b = y-1<0 ? 0 : image.at<uint8_t>(y-1, x);
+                c = x-1<0 || y-1<0 ? 0 : image.at<uint8_t>(y-1, x-1);
+
+                int64_t predict;
+                switch(i_predictor) {
+                    case 0: predict = a; break;
+                    case 1: predict = b; break;
+                    case 2: predict = int64_t(c); break;
+                    case 3: predict = a+b-c; break;
+                    case 4: predict = a+(b-c)/2; break;
+                    case 5: predict = b+(a-c)/2; break;
+                    case 6: predict = (a+b)/2; break;
+                    default: predict = 0; break;
+                }
+
+                g.decode(&error);
+
+                // if(predict + error < 0 || predict + error > 255) {
+                //     printf("%d %d _ %ld %ld _ %d %d %d\n", y, x, predict, error, a, b, c);
+                //     exit(0);
+                // }
+
+                image.at<uint8_t>(y, x) = predict + error;
+                out.mwriteNBits(uint64_t(predict), 8);
+            }
+        }
+        cv::imshow("Extracted Gray", image);
+        cv::waitKey(1);
+
+        // plt::plot(xx, hist);
+        // plt::show();
+        // Sample data
+        // std::vector<int8_t> xx = {1, 2, 3, 4, 5};
+        // std::vector<int8_t> xx(255); for(int i=0; i<255; i++) xx[i]=i-128;
+
+        // Plot the data
+        // plt::plot(xx, hist);
+        // plt::show();
+        //
+        // cv::imshow("Extracted Gray", image);
+        // cv::waitKey(0);
+
     }
-
-    // plt::plot(xx, hist);
-    // plt::show();
-    // Sample data
-    // std::vector<int8_t> xx = {1, 2, 3, 4, 5};
-    // std::vector<int8_t> xx(255); for(int i=0; i<255; i++) xx[i]=i-128;
-
-    // Plot the data
-    // plt::plot(xx, hist);
-    // plt::show();
-    //
-    cv::imshow("Extracted Gray", image);
-    cv::waitKey(0);
 
     return 0; 
 }

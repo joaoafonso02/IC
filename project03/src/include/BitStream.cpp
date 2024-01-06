@@ -40,6 +40,11 @@ uint8_t BitStream::writeNBits(uint64_t data, uint8_t n) {
   return 0;
 }
 
+uint8_t BitStream::mwriteNBits(uint64_t data, uint8_t n) {
+  data <<= (64-n);
+  return BitStream::writeNBits(data, n);
+}
+
 uint8_t BitStream::readBit(uint8_t *bit) {
   if( flag!=r ) {
     std::cerr << "[BitStream::readBit] Cannot read a bit in a BitStream of type write\n";
@@ -70,6 +75,11 @@ uint8_t BitStream::readNBits(uint64_t *data, uint8_t n) {
     *data = (*data << 1) | bit;
   }
   *data <<= (64 - i);
+  return 0;
+}
+uint8_t BitStream::mreadNBits(uint64_t *data, uint8_t n) {
+  BitStream::readNBits(data, n);
+  *data = (*data)>>(64-n);
   return 0;
 }
 
