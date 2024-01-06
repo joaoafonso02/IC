@@ -5,14 +5,10 @@
 #include <opencv2/core/matx.hpp>
 #include <opencv2/opencv.hpp>
 #include <iostream>
-// #include "include/matplotlibcpp.h"
-//
-// namespace plt = matplotlibcpp;
 
 #define N_PREDICTORS 7
 
-int main(int argc, char** argv) 
-{
+int main(int argc, char** argv) {
     uint i, j;
     BitStream bs = BitStream("file.gol", BitStream::r);
     BitStream out = BitStream("file.y4m", BitStream::w);
@@ -25,7 +21,7 @@ int main(int argc, char** argv)
     std::snprintf(header, sizeof(header), "YUV4MPEG2 W%lu H%lu F30000:1001 Ip A1:1 Cmono", width, height);
     printf("%s\n", header);
     for(i=0; header[i]!='\0'; i++) {
-        out.mwriteNBits(header[i], 8); // W352 H288
+        out.mwriteNBits(header[i], 8);
     }
     out.mwriteNBits(0x0A, 8);
     char str_frame[] = {"FRAME "};
@@ -70,31 +66,12 @@ int main(int argc, char** argv)
 
                 g.decode(&error);
 
-                // if(predict + error < 0 || predict + error > 255) {
-                //     printf("%d %d _ %ld %ld _ %d %d %d\n", y, x, predict, error, a, b, c);
-                //     exit(0);
-                // }
-
                 image.at<uint8_t>(y, x) = predict + error;
-                out.mwriteNBits(uint64_t(predict), 8);
+                out.mwriteNBits(uint64_t(image.at<uint8_t>(y, x)), 8);
             }
         }
         cv::imshow("Extracted Gray", image);
         cv::waitKey(1);
-
-        // plt::plot(xx, hist);
-        // plt::show();
-        // Sample data
-        // std::vector<int8_t> xx = {1, 2, 3, 4, 5};
-        // std::vector<int8_t> xx(255); for(int i=0; i<255; i++) xx[i]=i-128;
-
-        // Plot the data
-        // plt::plot(xx, hist);
-        // plt::show();
-        //
-        // cv::imshow("Extracted Gray", image);
-        // cv::waitKey(0);
-
     }
 
     return 0; 

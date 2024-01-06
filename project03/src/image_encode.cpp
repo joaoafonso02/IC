@@ -33,7 +33,6 @@ int calculate_m(std::vector<uint64_t> hist, uint32_t sampleSize) {
     double m = ceil(-1 / log(mean));
     return m < 1 ? 1 : m;
 }
-
 int img_encode(struct Image_Encoded *out, FrameData *frames, bool isKeyFrame, int blockSize, int searchArea) {
     cv::Mat *in = &frames->current;
     cv::Mat *prev = &frames->previous;
@@ -61,7 +60,20 @@ int img_encode(struct Image_Encoded *out, FrameData *frames, bool isKeyFrame, in
 
                         if (!isKeyFrame) {
                             // Motion compensation for inter-frames (P frames)
-                            int motionCompensation = getgray(prev->at<cv::Vec3b>(currentY, currentX));
+                            int motionCompensation = 0;
+
+                            // Consider a search area around the current block
+                            for (int sy = -searchArea; sy <= searchArea; sy++) {
+                                for (int sx = -searchArea; sx <= searchArea; sx++) {
+                                    int searchX = currentX + sx;
+                                    int searchY = currentY + sy;
+
+                                    if (searchX >= 0 && searchX < cols && searchY >= 0 && searchY < rows) {
+                                        motionCompensation += getgray(prev->at<cv::Vec3b>(searchY, searchX));
+                                    }
+                                }
+                            }
+
                             blockMotionCompensation += motionCompensation;
                         }
 
@@ -103,7 +115,6 @@ int img_encode(struct Image_Encoded *out, FrameData *frames, bool isKeyFrame, in
                     }
                 }
             }
-
         }
     }
 
