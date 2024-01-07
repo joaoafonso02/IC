@@ -8,7 +8,7 @@
 
 namespace plt = matplotlibcpp;
 
-#define N_PREDICTORS 3
+#define N_PREDICTORS 6
 
 struct Image_Encoded {
     std::vector<std::vector<int16_t>> err;
@@ -18,13 +18,11 @@ struct Image_Encoded {
 
 int calculate_m(std::vector<uint64_t> hist, uint32_t sampleSize) {
     double mean = 1;
-    double b = 0;
-    for(uint i=1; i<hist.size(); i++) {
-        b = double(hist[i])/sampleSize;
-        mean += (b / (pow(b, .1/i) - 1)) / (hist.size()-1);
+    for(uint i=0; i<hist.size(); i++) {
+        mean += (i+1) * hist[i];
     }
-    double m = ceil(-1 / log(mean));
-    return m<1 ? 1 : m;
+    mean /= sampleSize;
+    return (int) - (1/log((double) mean / (1 + mean)));
 }
 
 int code_gray_image(struct Image_Encoded *out, cv::Mat *in) {
