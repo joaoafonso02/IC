@@ -117,10 +117,14 @@ int main(int argc, char** argv)
 
     cv::Mat image(height, width, CV_8UC1);
 
-    // Convert YUV to Grayscale
-    for(i=0; i<height; i++) {
-        for(j=0; j<width; j++) {
-            image.at<uint8_t>(i, j) = original_image.at<cv::Vec3b>(i, j)[2];
+    // Convert BGR to Grayscale
+    for (i = 0; i < height; i++) {
+        for (j = 0; j < width; j++) {
+            uint8_t r = original_image.at<cv::Vec3b>(i, j)[2]; 
+            uint8_t g = original_image.at<cv::Vec3b>(i, j)[1]; 
+            uint8_t b = original_image.at<cv::Vec3b>(i, j)[0]; 
+
+            image.at<uint8_t>(i, j) = 0.299 * r + 0.587 * g + 0.114 * b; 
         }
     }
 
