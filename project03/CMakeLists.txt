@@ -19,8 +19,16 @@ include_directories(${Python3_INCLUDE_DIRS})
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-add_executable( image_encode src/image_encode.cpp src/include/Golomb.cpp src/include/BitStream.cpp)
-target_link_libraries( image_encode ${OpenCV_LIBS} ${Python3_LIBRARIES})
 
-add_executable( image_decode src/image_decode.cpp src/include/Golomb.cpp src/include/BitStream.cpp)
-target_link_libraries( image_decode ${OpenCV_LIBS} ${Python3_LIBRARIES})
+add_executable( ppm_code src/ppm_code.cpp src/include/Golomb.cpp src/include/BitStream.cpp)
+target_link_libraries( ppm_code ${OpenCV_LIBS} ${Python3_LIBRARIES})
+
+add_executable( ppm_decode src/ppm_decode.cpp src/include/Golomb.cpp src/include/BitStream.cpp)
+target_link_libraries( ppm_decode ${OpenCV_LIBS} ${Python3_LIBRARIES})
+
+add_executable( y4m_intra_code src/y4m_intra_code.cpp src/include/Golomb.cpp src/include/BitStream.cpp)
+target_link_libraries( y4m_intra_code ${OpenCV_LIBS} ${Python3_LIBRARIES})
+
+add_executable( y4m_intra_decode src/y4m_intra_decode.cpp src/include/Golomb.cpp src/include/BitStream.cpp)
+target_link_libraries( y4m_intra_decode ${OpenCV_LIBS} ${Python3_LIBRARIES})
+

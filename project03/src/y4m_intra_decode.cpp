@@ -9,17 +9,24 @@
 //
 // namespace plt = matplotlibcpp;
 
-#define N_PREDICTORS 7
+#define N_PREDICTORS 3
 
 int main(int argc, char** argv) 
 {
     uint i, j;
-    BitStream bs = BitStream("file.gol", BitStream::r);
-    BitStream out = BitStream("file.y4m", BitStream::w);
 
-    uint64_t m, i_predictor, width, height;
+    if (argc != 3) { 
+        std::cerr << "Usage: extract_channel <in_y4m_path> <out_coded_y4m_path>\n";
+        return -1; 
+    } 
+
+    BitStream bs = BitStream(argv[1], BitStream::r);
+    BitStream out = BitStream(argv[2], BitStream::w);
+
+    uint64_t m, predictor_t, width, height, frameCount;
     bs.mreadNBits(&height, 16);
     bs.mreadNBits(&width, 16);
+    bs.mreadNBits(&frameCount, 16);
 
     char header[256];
     std::snprintf(header, sizeof(header), "YUV4MPEG2 W%lu H%lu F30000:1001 Ip A1:1 Cmono", width, height);
@@ -28,20 +35,21 @@ int main(int argc, char** argv)
         out.mwriteNBits(header[i], 8); // W352 H288
     }
     out.mwriteNBits(0x0A, 8);
+
     char str_frame[] = {"FRAME "};
     str_frame[5] = 0x0A;
-
     cv::Mat image(height, width, CV_8UC1); 
 
-    for(i=0; i<300; i++) {
+    for(i=0; i<frameCount; i++) {
         bs.mreadNBits(&m, 32);
-        bs.mreadNBits(&i_predictor, 4);
+        bs.mreadNBits(&predictor_t, 8);
         printf("\nHeader Values:\n");
         printf("M: %ld\n", m);
-        printf("I_Predictor: %ld\n", i_predictor);
+        printf("I_Predictor: %ld\n", predictor_t);
 
         Golomb g = Golomb(m, &bs);
 
+        // Write the start of the frame to the output file
         for(j=0; str_frame[j]!='\0'; j++) {
             out.mwriteNBits(str_frame[j], 8);
         }
@@ -52,16 +60,16 @@ int main(int argc, char** argv)
         uint8_t predictor[7];
         for (y = 0; y < height; y++) {
             for (x = 0; x < width; x++) {
-                a = x-1<0 ? 0 : image.at<uint8_t>(y, x-1);
-                b = y-1<0 ? 0 : image.at<uint8_t>(y-1, x);
-                c = x-1<0 || y-1<0 ? 0 : image.at<uint8_t>(y-1, x-1);
+                a = x==0 ? 0 : image.at<uint8_t>(y, x-1);
+                b = y==0 ? 0 : image.at<uint8_t>(y-1, x);
+                c = x==0 || y==0 ? 0 : image.at<uint8_t>(y-1, x-1);
 
-                int64_t predict;
-                switch(i_predictor) {
+                uint8_t predict;
+                switch(predictor_t) {
                     case 0: predict = a; break;
                     case 1: predict = b; break;
-                    case 2: predict = int64_t(c); break;
-                    case 3: predict = a+b-c; break;
+                    case 2: predict = c; break;
+                    case 3: predict = (uint8_t) int(a)+int(b)-int(c); break;
                     case 4: predict = a+(b-c)/2; break;
                     case 5: predict = b+(a-c)/2; break;
                     case 6: predict = (a+b)/2; break;
@@ -70,17 +78,13 @@ int main(int argc, char** argv)
 
                 g.decode(&error);
 
-                // if(predict + error < 0 || predict + error > 255) {
-                //     printf("%d %d _ %ld %ld _ %d %d %d\n", y, x, predict, error, a, b, c);
-                //     exit(0);
-                // }
-
-                image.at<uint8_t>(y, x) = predict + error;
-                out.mwriteNBits(uint64_t(predict), 8);
+                uint8_t px = uint8_t(int(predict) + error);
+                image.at<uint8_t>(y, x) = px;
+                out.mwriteNBits(uint64_t(px), 8);
             }
         }
-        cv::imshow("Extracted Gray", image);
-        cv::waitKey(1);
+        // cv::imshow("Extracted Gray", image);
+        // cv::waitKey(0);
 
         // plt::plot(xx, hist);
         // plt::show();
