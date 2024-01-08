@@ -76,6 +76,7 @@ int code_gray_image(struct Image_Encoded *out, cv::Mat *in) {
             out->predictor_t = i;
         }
     }
+    
 
     // encode image
     for (y = 0; y < rows; y++) {

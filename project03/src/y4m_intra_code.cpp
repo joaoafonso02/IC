@@ -8,7 +8,7 @@
 
 namespace plt = matplotlibcpp;
 
-#define N_PREDICTORS 6
+#define N_PREDICTORS 7
 
 struct Image_Encoded {
     std::vector<std::vector<int16_t>> err;
